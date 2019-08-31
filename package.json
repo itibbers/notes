@@ -1,0 +1,28 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "note.wiki",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vuepress": "^1.0.3"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itibbers/notes.git"
+  },
+  "author": "itibbers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itibbers/notes/issues"
+  },
+  "homepage": "https://github.com/itibbers/notes#readme"
+}
