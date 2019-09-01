@@ -20,7 +20,7 @@ const config = {
     editLinkText: 'Edit this page'
   },
   markdown: {
-    lineNumbers: true
+    lineNumbers: false
   },
   evergreen: true
 }
