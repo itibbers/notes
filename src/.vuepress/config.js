@@ -14,7 +14,7 @@ const config = {
     repo: 'itibbers/notes',
     repoLabel: 'Github',
     docsRepo: 'itibbers/notes',
-    docsDir: 'docs',
+    docsDir: 'src',
     docsBranch: 'master',
     editLinks: true,
     editLinkText: 'Edit this page'
