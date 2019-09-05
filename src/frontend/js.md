@@ -2,20 +2,33 @@
 
 [[TOC]]
 
+## 数据类型
+
+5种简单（基本）数据类型: Undefined, Null, Boolean, Number, String
+
+1种复杂（引用）数据类型: Object
+
+typeof variable => undefined / object / boolean / number / string / function
+
+> 从技术角度讲，函数在ECMAScript中是对象，不是一种数据类型。然而，函数也确实有一些特殊的属性，因此通过typeof操作符来区分函数和其他对象是有必要的。
+
+
 ## for in for of forEach区别
 
-for (let key in iterable)
+> for (let key in iterable)
+
 for...in语句以任意顺序遍历一个对象自有的、继承的、可枚举的、非Symbol的属性。对于每个不同的属性，语句都会被执行。
 
--   可遍历数组、对象
--   每个不同的属性都会执行
--   常与hasOwnProperty搭配使用
+ - 可遍历数组、对象
+ - 每个不同的属性都会执行
+ - 常与hasOwnProperty搭配使用
 
-for (let value of iterable)
+> for (let value of iterable)
+
 for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值执行语句。
 
--   不能遍历对象
--   可迭代属性
+ - 不能遍历对象
+ - 可迭代属性
 
 ```js
     Object.prototype.objCustom = function() {};
@@ -39,29 +52,33 @@ for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArra
     }
 ```
 
-Array.prototype.forEach(function(currentValue[, index\[, array\]][, thisArg]){})
+> Array.prototype.forEach(function(currentValue[, index\[, array\]][, thisArg]){})
 
--   不直接改变原对象
--   不能使用break跳出循环
--   每次计算数组长度
+ - 不直接改变原对象
+ - 不能使用break跳出循环
+ - 每次计算数组长度
+
 
 ## this
 
--   方法调用模式：this被绑定到该对象
--   函数调用模式：this被绑定到全局对象（设计缺陷，常用that暂替）
--   构造器调用模式：this被绑定到新对象
--   apply/call调用模式：选择this的值
--   箭头函数: 首个非箭头函数调用者
+ - 方法调用模式：this被绑定到该对象
+ - 函数调用模式：this被绑定到全局对象（设计缺陷，常用that暂替）
+ - 构造器调用模式：this被绑定到新对象
+ - apply/call调用模式：选择this的值
+ - 箭头函数: 首个非箭头函数调用者
+
 
 ## 运行机制
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
+
 
 ## 设计模式
 
 ### MVC MVP MVVM
 
 > [MVC，MVP 和 MVVM 的图示](http://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html)
+
 
 ## 性能优化
 

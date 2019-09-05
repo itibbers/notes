@@ -14,10 +14,12 @@
  - 无名指：overflow除visible以外的值 hidden auto scroll
  - 小指：display: flex inline-block table-cells
 
-**BFC的应用？**
+**BFC的应用：**
+
 1. 清除浮动
 2. 布局
 3. 解决块级盒边距重叠
+
 
 ## 像素
 
@@ -79,9 +81,8 @@ width: 24/@one;
 2. 推荐使用无单位数值 https://codepen.io/itibbers/pen/pXMgpO
 3. 无障碍主段落内容至少为1.5
 4. font: size/line-height family;
-
-1. 等比矩形 :after padding
-2. outline 不占空间
-3. button:disabled { cursor: not-allowed; }
-4. width: fill-available; fit-content; max-content; min-content;
-5. --percent: 50; background-size: calc(var(--percent) * 1%);
+5. 等比矩形 :after padding
+6. outline 不占空间
+7. button:disabled { cursor: not-allowed; }
+8. width: fill-available; fit-content; max-content; min-content;
+9. --percent: 50; background-size: calc(var(--percent) * 1%);
