@@ -4,7 +4,7 @@
 
 ## defer async
 
-![defer-async](/images/defer-async.png)
+![defer-async](./images/defer-async.png)
 
 `<script>`标签属性：
 | attr | desc |
