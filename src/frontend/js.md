@@ -85,3 +85,8 @@ for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArra
 ### preload
 
 > [preload - MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Preloading_content)
+
+
+## fis3
+
+> [FIS为何默认会将所有相对路径调整为绝对路径](https://github.com/fex-team/fis/issues/86)
