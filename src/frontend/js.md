@@ -4,7 +4,7 @@
 
 ## 数据类型
 
-5种简单（基本）数据类型: Undefined, Null, Boolean, Number, String
+6种简单（基本）数据类型: Undefined, Null, Boolean, Number, String, Symbol
 
 1种复杂（引用）数据类型: Object
 
@@ -19,16 +19,16 @@ typeof variable => undefined / object / boolean / number / string / function
 
 for...in语句以任意顺序遍历一个对象自有的、继承的、可枚举的、非Symbol的属性。对于每个不同的属性，语句都会被执行。
 
- - 可遍历数组、对象
- - 每个不同的属性都会执行
- - 常与hasOwnProperty搭配使用
+- 可遍历数组、对象
+- 每个不同的属性都会执行
+- 常与hasOwnProperty搭配使用
 
 > for (let value of iterable)
 
 for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值执行语句。
 
- - 不能遍历对象
- - 可迭代属性
+- 不能遍历对象
+- 可迭代属性
 
 ```js
     Object.prototype.objCustom = function() {};
@@ -38,34 +38,130 @@ for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArra
     iterable.foo = 'hello';
 
     for (let i in iterable) {
-      console.log(i); // logs 0, 1, 2, "foo", "arrCustom", "objCustom"
+      console.log(i); // 0, 1, 2, "foo", "arrCustom", "objCustom"
     }
 
     for (let i in iterable) {
       if (iterable.hasOwnProperty(i)) {
-        console.log(i); // logs 0, 1, 2, "foo"
+        console.log(i); // 0, 1, 2, "foo"
       }
     }
 
     for (let i of iterable) {
-      console.log(i); // logs 3, 5, 7
+      console.log(i); // 3, 5, 7
     }
+
+    如果是对象：
+    let a = {a: 1, b: 2}
+    for (let v of Object.values(obj) {
+      console.log(v); // 1 2
+    }
+
+    取代forEach:
+    for (let [key, value] of a.entries()) {
+      console.log(key, value)
+    }
+
 ```
 
 > Array.prototype.forEach(function(currentValue[, index\[, array\]][, thisArg]){})
 
- - 不直接改变原对象
- - 不能使用break跳出循环
- - 每次计算数组长度
+- 不直接改变原对象
+- 不能使用break跳出循环
+- 每次计算数组长度
 
 
 ## this
 
- - 方法调用模式：this被绑定到该对象
- - 函数调用模式：this被绑定到全局对象（设计缺陷，常用that暂替）
- - 构造器调用模式：this被绑定到新对象
- - apply/call调用模式：选择this的值
- - 箭头函数: 首个非箭头函数调用者
+- 方法调用模式：this被绑定到该对象
+- 函数调用模式：this被绑定到全局对象（设计缺陷，常用that暂替）
+- 构造器调用模式：this被绑定到新对象
+- apply/call调用模式：选择this的值
+- 箭头函数: 首个非箭头函数调用者
+
+## ES6
+
+[super](http://es6.ruanyifeng.com/#docs/object#super-关键字)
+
+ES5 比较两个值是否相等，只有两个运算符：相等运算符（==）和严格相等运算符（===）。它们都有缺点，前者会自动转换数据类型，后者的NaN不等于自身，以及+0等于-0。JavaScript 缺乏一种运算，在所有环境中，只要两个值是一样的，它们就应该相等。
+
+Object.fromEntries(new URLSearchParams('foo=bar&baz=qux'))
+
+[Symbol消除魔术字符串](http://es6.ruanyifeng.com/#docs/symbol#实例：消除魔术字符串)
+
+WeakSet 成员只能是对象
+
+WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中。
+
+这是因为垃圾回收机制依赖引用计数，如果一个值的引用次数不为0，垃圾回收机制就不会释放这块内存。结束使用该值之后，有时会忘记取消引用，导致内存无法释放，进而可能会引发内存泄漏。WeakSet 里面的引用，都不计入垃圾回收机制，所以就不存在这个问题。因此，WeakSet 适合临时存放一组对象，以及存放跟对象绑定的信息。只要这些对象在外部消失，它在 WeakSet 里面的引用就会自动消失。
+
+由于上面这个特点，WeakSet 的成员是不适合引用的，因为它会随时消失。另外，由于 WeakSet 内部有多少个成员，取决于垃圾回收机制有没有运行，运行前后很可能成员个数是不一样的，而垃圾回收机制何时运行是不可预测的，因此 ES6 规定 WeakSet 不可遍历。
+
+这些特点同样适用于本章后面要介绍的 WeakMap 结构。
+
+Generator 函数有多种理解角度。语法上，首先可以把它理解成，Generator 函数是一个状态机，封装了多个内部状态。
+
+Generator 函数是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行。
+
+```js
+function* fn() {
+  yield 1;
+  yield 2;
+  return 3;
+}
+
+var g = fn()
+```
+
+通过next方法的参数，就有办法在 Generator 函数开始运行之后，继续向函数体内部注入值。
+
+[next-方法的参数](http://es6.ruanyifeng.com/#docs/generator#next-方法的参数)
+
+```js
+function* foo() {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+  yield 5;
+  return 6;
+}
+
+for (let v of foo()) {
+  console.log(v);
+}
+// 1 2 3 4 5
+```
+
+ES6 的模块自动采用严格模式，不管你有没有在模块头部加上"use strict";。
+
+严格模式主要有以下限制。
+
+- 变量必须声明后再使用
+- 函数的参数不能有同名属性，否则报错
+- 不能使用with语句
+- 不能对只读属性赋值，否则报错
+- 不能使用前缀 0 表示八进制数，否则报错
+- 不能删除不可删除的属性，否则报错
+- 不能删除变量delete prop，会报错，只能删除属性delete global[prop]
+- eval不会在它的外层作用域引入变量
+- eval和arguments不能被重新赋值
+- arguments不会自动反映函数参数的变化
+- 不能使用arguments.callee
+- 不能使用arguments.caller
+- 禁止this指向全局对象
+- 不能使用fn.caller和fn.arguments获取函数调用的堆栈
+- 增加了保留字（比如protected、static和interface）
+
+其中，尤其需要注意this的限制。ES6 模块之中，顶层的this指向undefined，即不应该在顶层代码使用this。
+
+浏览器对于带有type="module"的<script>，都是异步加载，不会造成堵塞浏览器，即等到整个页面渲染完，再执行模块脚本，等同于打开了<script>标签的defer属性。
+
+ES6 与 CommonJS 模块的差异
+
+- CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
+- CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
+第二个差异是因为 CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。
 
 
 ## 运行机制
@@ -90,3 +186,9 @@ for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArra
 ## fis3
 
 > [FIS为何默认会将所有相对路径调整为绝对路径](https://github.com/fex-team/fis/issues/86)
+
+
+## 最新规范
+
+### Web Components
+[Web Components - MDN](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components)
