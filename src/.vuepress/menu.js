@@ -9,6 +9,7 @@ module.exports = {
     '/frontend/': [
       '',
       'js',
+      'vue',
       'css',
     ]
   }
