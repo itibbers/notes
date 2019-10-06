@@ -163,11 +163,9 @@ ES6 与 CommonJS 模块的差异
 - CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
 第二个差异是因为 CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。
 
-
 ## 运行机制
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
-
 
 ## 设计模式
 
@@ -236,19 +234,15 @@ const singleMode = (function() {
 关于第二点，代理可以用于控制对那种创建开锁很大的本体访问，它会把本体的实例化推迟到方法被调用的时候，比如说有个实例化很慢的对象不能在网页加载的时候立即完成，可以为其创建个虚拟代理，让该对象实例化推迟。
 
 
-
-
 ## 性能优化
 
 ### preload
 
 > [preload - MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Preloading_content)
 
-
 ## fis3
 
 > [FIS为何默认会将所有相对路径调整为绝对路径](https://github.com/fex-team/fis/issues/86)
-
 
 ## 最新规范
 
