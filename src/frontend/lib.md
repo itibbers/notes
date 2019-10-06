@@ -1,6 +1,8 @@
 # 实验室
 记录遇到的问题
 
+[[TOC]]
+
 ## linux node 时区 时间
 https://www.cnblogs.com/kerrycode/p/4217995.html
 https://stackoverflow.com/questions/46107050/where-does-node-js-get-its-timezone-and-how-can-i-set-it-globally
