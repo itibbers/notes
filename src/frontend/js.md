@@ -167,6 +167,22 @@ ES6 与 CommonJS 模块的差异
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
 
+## 跨域
+
+### cookie跨域
+
+1. 同一域名，设置`domain`和`path`
+
+例如www.baidu.com和v.baidu.com想要共享cookie，可以设置cookie的domain=.baidu.com,path=/
+
+2. nginx反向代理
+3. jsonp
+4. nodejs superagent
+
+### localStorage跨域
+
+postMessage + iframe
+
 ## 设计模式
 
 ### MVC MVP MVVM
@@ -232,6 +248,88 @@ const singleMode = (function() {
 - 把本体实例化推迟到真正需要的时候。
 
 关于第二点，代理可以用于控制对那种创建开锁很大的本体访问，它会把本体的实例化推迟到方法被调用的时候，比如说有个实例化很慢的对象不能在网页加载的时候立即完成，可以为其创建个虚拟代理，让该对象实例化推迟。
+
+
+5. 职责链模式
+
+```js
+// 此处不能使用箭头函数
+// 箭头函数声明的时候context就已经决定了
+// 不能使用call,apply,bind改变this指向
+
+function fn1() {
+  console.log(1)
+  return 'next'
+}
+
+// 异步职责链
+function fn2() {
+  console.log(2)
+  setTimeout(() => {
+    this.next()
+  }, 1000)
+}
+
+function fn3() {
+  console.log(3)
+  return 'next'
+}
+
+// 职责链模式
+function Chain(fn) {
+  this.fn = fn
+  this.nextFn = null
+}
+
+Chain.prototype.setNext = function(nextFn) {
+  this.nextFn = nextFn
+}
+
+Chain.prototype.run = function() {
+  let res = this.fn.apply(this, arguments)
+  if (res === 'next') {
+    this.next()
+  }
+  return res
+}
+
+Chain.prototype.next = function() {
+  return this.nextFn && this.nextFn.run.apply(this.nextFn, arguments)
+}
+
+let c1 = new Chain(fn1)
+let c2 = new Chain(fn2)
+let c3 = new Chain(fn3)
+
+c1.setNext(c2)
+c2.setNext(c3)
+
+c1.run()
+
+// Plan B
+// Promise同步队列也可以考虑一下
+
+function ChainB(subs) {
+  this.subs = subs
+  this.run()
+}
+
+ChainB.prototype.run = async function() {
+  for(let i = 0; i < this.subs.length; i++) {
+    let res = await this.subs[i].apply(this, arguments)
+    if (res === 'success') {
+      break
+    }
+  }
+}
+```
+职责链模式的优点是：
+ 1. 解耦了请求发送者和N个接收者之间的复杂关系，不需要知道链中那个节点能处理你的请求，所以你只需要把请求传递到第一个节点即可。
+ 2. 链中的节点对象可以灵活地拆分重组，增加或删除一个节点，或者改变节点的位置都是很简单的事情。
+ 3. 我们还可以手动指定节点的起始位置，并不是说非得要从其实节点开始传递的。
+
+缺点：
+  职责链模式中多了一点节点对象，可能在某一次请求过程中，大部分节点没有起到实质性作用，他们的作用只是让请求传递下去，从性能方面考虑，避免过长的职责链提高性能。
 
 
 ## 性能优化
