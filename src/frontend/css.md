@@ -2,6 +2,23 @@
 
 [[TOC]]
 
+## 属性
+
+### display
+
+| | block | inline | inline-block | inline-flex |
+| ---- | ---- | ---- | ---- | ---- |
+| width | Y | N | Y | Y |
+| height | Y | N | Y | Y |
+| margin-top, margin-bottom | Y | N | Y | Y |
+| margin-left, margin-right | Y | Y | Y | Y |
+| padding-top, padding-bottom | Y | Y | Y | Y |
+| padding-left, padding-right | Y | Y | Y | Y |
+
+inline: width, height, 竖直方向margin不起作用
+inline-(flex|block) 内部表现为flex|block
+
+
 ## BFC
 
 当一个元素浮动之后，它会被移出正常的文档流，然后向左或者向右平移，一直平移直到碰到了所处的容器的边框，或者碰到另外一个浮动的元素。
