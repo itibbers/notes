@@ -179,6 +179,13 @@ ES6 与 CommonJS 模块的差异
 3. jsonp
 4. nodejs superagent
 
+cors支持ajax请求携带cookie，前后端数据交互规则:
+1. 同域名下发送ajax请求，请求中默认会携带cookie
+2. ajax在发送跨域请求时，默认情况下是不会携带cookie的
+3. ajax在发送跨域请求时如果想携带cookie，必须将请求对象的withcredentials属性设置为true。
+4. 此时服务端的响应头Access-Control-Allow-Origin不能为*（星号）了，必须是白名单样式，也就是必须设置允许哪些url才能访问，如：Access-Control-Allow-Origin: http://api.baidu.com
+5. 除了对响应头Access-Control-Allow-Origin的设置，还必须设置另外一个响应头：Access-Control-Allow-Credentials:true。
+
 ### localStorage跨域
 
 postMessage + iframe
