@@ -21,7 +21,7 @@
     "url": "git+https://github.com/itibbers/notes.git"
   },
   "author": "itibbers",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/itibbers/notes/issues"
   },

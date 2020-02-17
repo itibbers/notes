@@ -11,6 +11,7 @@ module.exports = {
       'js',
       'css',
       'vue',
+      'network',
       'lib',
     ]
   }
