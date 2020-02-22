@@ -25,8 +25,6 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 
 4. 实现一个订阅器 Dep：订阅器采用 发布-订阅 设计模式，用来收集订阅者 Watcher，对监听器 Observer 和订阅者 Watcher 进行统一管理。
 
-
-
 ![vue-two-way-data-binding](images/vue-two-way-data-binding.png)
 
 
