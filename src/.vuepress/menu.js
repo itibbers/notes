@@ -8,9 +8,10 @@ module.exports = {
   sidebar: {
     '/frontend/': [
       '',
-      'js',
       'css',
+      'js',
       'vue',
+      'browser',
       'network',
       'lib',
     ]

@@ -31,4 +31,24 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 
 ## Object.defineProperty()有什么缺点？Vue2中是如何hack的？
 
+## 深入响应式原理
+
+### 派发更新
+
+`dep.notify()`会遍历Watcher触发`watcher.update()`,`update()`添加到更新队列中，在下一次`$nextTick`时执行更新操作。
+
+### nextTick
+
+数据的变化到 DOM 的重新渲染是一个异步过程，发生在下一个 tick。这就是我们平时在开发的过程中，比如从服务端接口去获取数据的时候，数据做了修改，如果我们的某些方法去依赖了数据修改后的 DOM 变化，我们就必须在 `nextTick` 后执行。比如下面的伪代码：
+
+```js
+getData(res).then(()=>{
+  this.xxx = res.data
+  this.$nextTick(() => {
+    // 这里我们可以获取变化后的 DOM
+  })
+})
+```
+
+Vue.js 提供了 2 种调用 `nextTick` 的方式，一种是全局 API `Vue.nextTick`，一种是实例上的方法 `vm.$nextTick`，无论我们使用哪一种，最后都是调用 `next-tick.js` 中实现的 `nextTick` 方法。
 

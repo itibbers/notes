@@ -13,6 +13,106 @@ typeof variable => undefined / object / boolean / number / string / function
 > 从技术角度讲，函数在ECMAScript中是对象，不是一种数据类型。然而，函数也确实有一些特殊的属性，因此通过typeof操作符来区分函数和其他对象是有必要的。
 
 
+
+## 原型、构造函数、实例、原型链
+
+![img](./images/1.jpeg)
+
+可能通过 `new` 新建一个实例对象的函数叫构造函数，构造函数的 `prototype` 即原型。每个 Javascript 对象都包含一个`__proto__`属性，指向它的构造函数的原型，通过 `constructor` 属性指向构造函数。
+
+原型链由原型对象组成，每个对象都有 `__proto__` 属性，指向了创建该对象的构造函数的原型，`__proto__` 将对象连接起来组成了原型链。可以通过这个对象链实现继承和共享属性。
+
+## 闭包
+
+闭包属于一种特殊的作用域，称为 静态作用域。它的定义可以理解为：父函数被销毁的情况下，返回出的子函数的作用域链`[[scope]]`还保存着父函数的变量对象和作用域链，因此可以访问到父级的变量对象，这样的函数称为闭包。
+
+闭包会产生一个很经典的问题:
+
+- 多个子函数的`[[scope]]`都是同时指向父级，是完全共享的。因此当父级的变量对象被修改时，所有子函数都受到影响。
+
+解决:
+
+- 变量可以通过 **函数参数的形式** 传入，避免使用默认的`[[scope]]`向上查找
+- 使用`setTimeout`包裹，通过第三个参数传入
+- 使用 **块级作用域**，让变量成为自己上下文的属性，避免共享
+
+## 对象拷贝
+
+浅拷贝: 以赋值的形式拷贝引用对象，仍指向同一个地址，**修改时原对象也会受到影响**
+
+- `Object.assign`
+- 展开运算符(...)
+
+深拷贝: 完全拷贝一个新对象，**修改时原对象不再受到任何影响**
+
+- `JSON.parse(JSON.stringify(obj))`
+  - 性能最快
+  - 具有循环引用的对象时，报错
+  - 当值为函数、`undefined`、或`symbol`时，无法拷贝
+- 递归进行逐一赋值
+
+## new执行过程
+
+- 新生成一个对象
+- 链接到原型: `obj.__proto__ = Con.prototype`
+- 绑定this: `apply`
+- 返回新对象(如果构造函数有自己 retrun 时，则返回该值)
+
+## 防抖与节流
+
+防抖与节流函数是一种最常用的 **高频触发优化方式**，能对性能有较大的帮助。
+
+- **防抖 (debounce)**: 将多次高频操作优化为只在最后一次执行，通常使用的场景是：用户输入，只需再输入完成后做一次输入校验即可。
+
+```js
+function debounce(fn, wait, immediate) {
+    let timer = null
+
+    return function() {
+        let args = arguments
+        let context = this
+
+        if (immediate && !timer) {
+            fn.apply(context, args)
+        }
+
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn.apply(context, args)
+        }, wait)
+    }
+}
+复制代码
+```
+
+- **节流(throttle)**: 每隔一段时间后执行一次，也就是降低频率，将高频操作优化成低频操作，通常使用场景: 滚动条事件 或者 resize 事件，通常每隔 100~500 ms执行一次即可。
+
+```js
+function throttle(fn, wait, immediate) {
+    let timer = null
+    let callNow = immediate
+    
+    return function() {
+        let context = this,
+            args = arguments
+
+        if (callNow) {
+            fn.apply(context, args)
+            callNow = false
+        }
+
+        if (!timer) {
+            timer = setTimeout(() => {
+                fn.apply(context, args)
+                timer = null
+            }, wait)
+        }
+    }
+}
+```
+
+
+
 ## for in for of forEach区别
 
 > for (let key in iterable)
@@ -163,7 +263,70 @@ ES6 与 CommonJS 模块的差异
 - CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
 第二个差异是因为 CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。
 
-## 运行机制
+## AST
+
+**抽象语法树 (Abstract Syntax Tree)**，是将代码逐字母解析成 **树状对象** 的形式。这是语言之间的转换、代码语法检查，代码风格检查，代码格式化，代码高亮，代码错误提示，代码自动补全等等的基础。
+
+## babel编译原理
+
+- babylon 将 ES6/ES7 代码解析成 AST
+- babel-traverse 对 AST 进行遍历转译，得到新的 AST
+- 新 AST 通过 babel-generator 转换成 ES5
+
+## JS运行机制
+
+![event-loop](./images/event-loop.png)
+
+
+JS 执行是单线程的，它是基于事件循环的。事件循环大致分为以下几个步骤：
+
+1. 所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。
+
+2. 主线程之外，还存在一个"任务队列"（task queue）。只要异步任务有了运行结果，就在"任务队列"之中放置一个事件。
+
+3. 一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。
+
+4. 主线程不断重复上面的第三步。
+
+主线程的执行过程就是一个 tick，而所有的异步结果都是通过 “任务队列” 来调度。 消息队列中存放的是一个个的任务（task）。 规范中规定 task 分为两大类，分别是 macro task 和 micro task，并且每个 macro task 结束后，都要清空所有的 micro task。在ECMAScript中，microtask称为`jobs`，macrotask可称为`task`。
+
+在浏览器环境中，常见的 macro task 有 setTimeout、MessageChannel、postMessage、setImmediate；常见的 micro task 有 MutationObsever 和 Promise.then。
+
+说下下面程序运行结果：
+
+```js
+// setImmediate(function(){
+//     console.log(1);
+// },0);
+setTimeout(function() {
+    console.log(12);
+}, 0);
+setTimeout(function() {
+    console.log(2);
+    new Promise(function(resolve) { 
+        resolve(); 
+    }).then(function() {
+        console.log(9); // macro中添加micro任务
+    });
+}, 0);
+setTimeout(function() {
+    console.log(11);
+}, 0);
+new Promise(function(resolve) {
+    console.log(3);
+    resolve();
+    console.log(4);
+}).then(function() {
+    console.log(5);
+});
+console.log(6);
+// process.nextTick(function() {
+//     console.log(7);
+// });
+console.log(8);
+```
+
+
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
 
