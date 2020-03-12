@@ -13,6 +13,7 @@ module.exports = {
       'vue',
       'browser',
       'network',
+      'algorithm',
       'lib',
     ]
   }
