@@ -27,11 +27,7 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 
 ![vue-two-way-data-binding](./images/vue-two-way-data-binding.png)
 
-
-
-## Object.defineProperty()有什么缺点？Vue2中是如何hack的？
-
-## 深入响应式原理
+![Vue](./images/Vue.png)
 
 ### 派发更新
 
@@ -51,4 +47,40 @@ getData(res).then(()=>{
 ```
 
 Vue.js 提供了 2 种调用 `nextTick` 的方式，一种是全局 API `Vue.nextTick`，一种是实例上的方法 `vm.$nextTick`，无论我们使用哪一种，最后都是调用 `next-tick.js` 中实现的 `nextTick` 方法。
+
+## Object.defineProperty()有什么缺点？Vue2中是如何hack的？
+
+proxy相比defineProperty()优势：
+
+- 数组变化也能监听到
+- 不需要深度遍历监听
+
+```js
+let data = { a: 1 }
+let reactiveData = new Proxy(data, {
+	get: function(target, name){
+		// ...
+	},
+	// ...
+})
+```
+
+## vue-router
+
+- mode
+  - `hash`
+  - `history`
+- 跳转
+  - `this.$router.push()`
+  - `<router-link to=""></router-link>`
+- 占位
+  - `<router-view></router-view>`
+
+## vuex
+
+- `state`: 状态中心
+- `mutations`: 更改状态
+- `actions`: 异步更改状态
+- `getters`: 获取状态
+- `modules`: 将`state`分成多个`modules`，便于管理
 

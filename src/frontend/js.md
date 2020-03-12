@@ -16,11 +16,31 @@ typeof variable => undefined / object / boolean / number / string / function
 
 ## 原型、构造函数、实例、原型链
 
-![img](./images/1.jpeg)
+![prototype](./images/prototype.jpeg)
 
 可能通过 `new` 新建一个实例对象的函数叫构造函数，构造函数的 `prototype` 即原型。每个 Javascript 对象都包含一个`__proto__`属性，指向它的构造函数的原型，通过 `constructor` 属性指向构造函数。
 
 原型链由原型对象组成，每个对象都有 `__proto__` 属性，指向了创建该对象的构造函数的原型，`__proto__` 将对象连接起来组成了原型链。可以通过这个对象链实现继承和共享属性。
+
+## 继承
+
+- 最优化: **圣杯模式**
+
+```js
+var inherit = (function(c,p){
+	var F = function(){};
+	return function(c,p){
+		F.prototype = p.prototype;
+		c.prototype = new F();
+		c.uber = p.prototype;
+		c.prototype.constructor = c;
+	}
+})();
+```
+
+- 使用 ES6 的语法糖 `class / extends`
+
+⚠️待补充class语法糖原理
 
 ## 闭包
 
@@ -35,6 +55,13 @@ typeof variable => undefined / object / boolean / number / string / function
 - 变量可以通过 **函数参数的形式** 传入，避免使用默认的`[[scope]]`向上查找
 - 使用`setTimeout`包裹，通过第三个参数传入
 - 使用 **块级作用域**，让变量成为自己上下文的属性，避免共享
+
+## new执行过程
+
+- 新生成一个对象
+- 链接到原型: `obj.__proto__ = Con.prototype`
+- 绑定this: `apply`
+- 返回新对象(如果构造函数有自己 retrun 时，则返回该值)
 
 ## 对象拷贝
 
@@ -51,12 +78,28 @@ typeof variable => undefined / object / boolean / number / string / function
   - 当值为函数、`undefined`、或`symbol`时，无法拷贝
 - 递归进行逐一赋值
 
-## new执行过程
-
-- 新生成一个对象
-- 链接到原型: `obj.__proto__ = Con.prototype`
-- 绑定this: `apply`
-- 返回新对象(如果构造函数有自己 retrun 时，则返回该值)
+```js
+function deepClone(obj) {
+    let result;
+    if (typeof obj == 'object') {
+        result = isArray(obj) ? [] : {}
+        for (let i in obj) {
+            result[i] = isObject(obj[i]) || isArray(obj[i])
+              ? deepClone(obj[i])
+              : obj[i]
+        }
+    } else {
+        result = obj
+    }
+    return result
+}
+function isObject(obj) {
+    return Object.prototype.toString.call(obj) == "[object Object]"
+}
+function isArray(obj) {
+    return Object.prototype.toString.call(obj) == "[object Array]"
+}
+```
 
 ## 防抖与节流
 
@@ -111,7 +154,15 @@ function throttle(fn, wait, immediate) {
 }
 ```
 
+## 0.1+0.2!=0.3怎么处理
 
+把需要计算的数字升级（乘以10的n次幂）成计算机能够精确识别的整数，等计算完成后再进行降级（除以10的n次幂），即：
+
+```js
+(0.1*10 + 0.2*10)/10 == 0.3 // true
+```
+
+> [JS中浮点数精度问题](http://xieyufei.com/2018/03/07/JS-Decimal-Accuracy.html)
 
 ## for in for of forEach区别
 
