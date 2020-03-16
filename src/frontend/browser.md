@@ -119,3 +119,9 @@ worker.onmessage = function (event) {
 
 可用 chrome 中的 timeline 进行内存标记，可视化查看内存的变化情况，找出异常点。
 
+## webview debug
+
+推荐工具：
+
+- spy-debugger
+

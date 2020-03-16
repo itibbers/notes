@@ -564,19 +564,32 @@ ChainB.prototype.run = async function() {
 - 资源打包、压缩
 - 按需加载
 - 缓存资源
+  - 添加hash，为避免因代码变化缓存经常失效，将npm固定的依赖和常变化的代码打包为两个独立的部分
+
 - 使用CDN
 - gzip压缩
 - [preload - MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Preloading_content)
-- 合并请求
 - 雪碧图
 - 图片懒加载、数据懒加载
-- 代码优化：冗余，异步请求，小图片base64等，使用filter搜索提高小情况下搜索效率
+- http2
+- 内部系统适应考虑去babel、module现代模式
+- 排查npm包
+  - lodash -> lodash-es
+  - moment.js -> day.js
+  - xlsx -> 按需加载
+- 代码优化：合并请求，异步请求，小图片base64等
 - 减少DOM操作
 - 渲染优化、CSS动画
-- 排查npm包
 - debounce、throttle
-- 排查接口
+- 排查慢接口
 - nginx、pm2配置，加机器
+
+
+
+推荐工具：
+
+- webpack-bundle-analyzer 打包分析工具
+- vuex-persistedstate 状态存储
 
 ## fis3
 
