@@ -19,6 +19,8 @@
   - layout: 布局
   - GPU painting: 像素绘制页面
 
+![browser-render](./images/browser-render.png)
+
 ## 重绘与回流
 
 当元素的样式发生变化时，浏览器需要触发更新，重新绘制元素。这个过程中，有两种类型的操作，即重绘与回流。
@@ -60,7 +62,7 @@
 
 **基本用法:**
 
-```
+```js
 // 创建 worker
 const worker = new Worker('work.js');
 
@@ -71,7 +73,6 @@ worker.postMessage('Hello World');
 worker.onmessage = function (event) {
   console.log('Received message ' + event.data);
 }
-复制代码
 ```
 
 **限制:**

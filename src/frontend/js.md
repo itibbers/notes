@@ -577,6 +577,7 @@ ChainB.prototype.run = async function() {
   - lodash -> lodash-es
   - moment.js -> day.js
   - xlsx -> 按需加载
+- SSR
 - 代码优化：合并请求，异步请求，小图片base64等
 - 减少DOM操作
 - 渲染优化、CSS动画

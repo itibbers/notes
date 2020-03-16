@@ -11,7 +11,8 @@ const config = {
   plugins: [
     ['@vuepress/google-analytics', {
       ga: 'UA-104632485-5'
-    }]
+    }],
+    "vuepress-plugin-cat"
   ],
   themeConfig: {
     displayAllHeaders: true,
