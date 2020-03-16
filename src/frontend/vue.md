@@ -65,6 +65,70 @@ let reactiveData = new Proxy(data, {
 })
 ```
 
+## key的作用
+
+1. 让vue精准的追踪到每一个元素，**高效的更新虚拟DOM**。
+2. 触发过渡
+
+```html
+<transition>
+  <span :key="text">{{ text }}</span>
+</transition>
+```
+
+当text改变时，这个元素的key属性就发生了改变，在渲染更新时，Vue会认为这里新产生了一个元素，而老的元素由于key不存在了，所以会被删除，从而触发了过渡。妙啊！
+
+## scoped样式穿透
+
+scoped虽然避免了组件间样式污染，但是很多时候我们需要修改组件中的某个样式，但是又不想去除scoped属性。
+
+1. 使用/deep/
+
+```html
+//Parent
+<template>
+<div class="wrap">
+    <Child />
+</div>
+</template>
+
+<style lang="scss" scoped>
+.wrap /deep/ .box{
+    background: red;
+}
+</style>
+
+//Child
+<template>
+    <div class="box"></div>
+</template>
+```
+
+1. 使用两个style标签
+
+```html
+//Parent
+<template>
+<div class="wrap">
+    <Child />
+</div>
+</template>
+
+<style lang="scss" scoped>
+//其他样式
+</style>
+<style lang="scss">
+.wrap .box{
+    background: red;
+}
+</style>
+
+//Child
+<template>
+    <div class="box"></div>
+</template>
+```
+
 ## vue-router
 
 - mode

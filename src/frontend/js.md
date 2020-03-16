@@ -1,6 +1,6 @@
 # JS
 
-[[TOC]]
+[TOC]
 
 ## 数据类型
 
@@ -383,6 +383,8 @@ console.log(8);
 
 ## 跨域
 
+>  [九种跨域方式实现原理](https://juejin.im/post/5c23993de51d457b8c1f4ee1)
+
 ### cookie跨域
 
 1. 同一域名，设置`domain`和`path`
@@ -555,9 +557,26 @@ ChainB.prototype.run = async function() {
 
 ## 性能优化
 
-### preload
+性能问题主要产生的原因在于两点：资源加载和计算。资源加载可以从响应服务器到前端的数据链路排查问题，计算包括DOM响应，js逻辑，服务端逻辑，逐渐分析性能瓶颈。
 
-> [preload - MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Preloading_content)
+针对这两点可以采取以下措施：
+
+- 资源打包、压缩
+- 按需加载
+- 缓存资源
+- 使用CDN
+- gzip压缩
+- [preload - MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Preloading_content)
+- 合并请求
+- 雪碧图
+- 图片懒加载、数据懒加载
+- 代码优化：冗余，异步请求，小图片base64等，使用filter搜索提高小情况下搜索效率
+- 减少DOM操作
+- 渲染优化、CSS动画
+- 排查npm包
+- debounce、throttle
+- 排查接口
+- nginx、pm2配置，加机器
 
 ## fis3
 
