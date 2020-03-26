@@ -18,7 +18,7 @@
 inline: width, height, 竖直方向margin不起作用
 inline-(flex|block) 内部表现为flex|block
 
-## 说说CSS选择器及其优先级
+## CSS选择器及其优先级
 
 * !important
 * 内联选择器1000
@@ -277,12 +277,12 @@ body {
 ## 小技巧
 
 1. 移动端必须指定默认值（默认大约1.2）
-2. 推荐使用无单位数值 https://codepen.io/itibbers/pen/pXMgpO
-3. 无障碍主段落内容至少为1.5
-4. font: size/line-height family;
-5. 等比矩形 :after padding
-6. outline 不占空间
+2. 推荐使用无单位数值 [](https://codepen.io/itibbers/pen/pXMgpO)
+3. 无障碍：主段落内容至少为1.5
+4. 简写font: size/line-height family;
+5. 等比矩形可用 :after + padding 实现
+6. outline属性不占空间
 7. button:disabled { cursor: not-allowed; }
-8. width: fill-available; fit-content; max-content; min-content;
+8. CSS3：width: fill-available; fit-content; max-content; min-content;
 9. --percent: 50; background-size: calc(var(--percent) * 1%);
 

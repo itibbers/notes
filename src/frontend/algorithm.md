@@ -80,3 +80,7 @@ Array.prototype.quickSort = function() {
 
 `Array.prototype.sort()`在数组元素数量小于等于10时使用冒泡排序，否则使用快速排序。
 
+## 动态规划
+
+>  [Dynamic Programming Patterns](https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns)
+

@@ -383,28 +383,99 @@ console.log(8);
 
 ## 跨域
 
->  [九种跨域方式实现原理](https://juejin.im/post/5c23993de51d457b8c1f4ee1)
+同源：协议、域名、端口三者相同。
 
-### cookie跨域
+限制内容：
 
-1. 同一域名，设置`domain`和`path`
+- Cookie、LocalStorage、IndexedDB 等存储性内容
+- DOM 节点
+- AJAX 请求发送后，结果被浏览器拦截了
 
-例如www.baidu.com和v.baidu.com想要共享cookie，可以设置cookie的domain=.baidu.com,path=/
+但是有三个标签不受同源策略限制：
 
-2. nginx反向代理
-3. jsonp
-4. nodejs superagent
+- `<link href="">`
+- `<img src=XXX>`
+- `<script src=""></script>`
 
-cors支持ajax请求携带cookie，前后端数据交互规则:
+**跨域并不是请求发不出去，请求能发出去，服务端能收到请求并正常返回结果，只是结果被浏览器拦截了**。你可能会疑问明明通过表单的方式可以发起跨域请求，为什么 Ajax 就不会?因为归根结底，跨域是为了阻止用户读取到另一个域名下的内容，Ajax 可以获取响应，浏览器认为这不安全，所以拦截了响应。但是表单并不会获取新的内容，所以可以发起跨域请求。同时也说明了跨域并不能完全阻止 CSRF，因为请求毕竟是发出去了。
+
+### 常见跨域解决方案
+
+1. JSONP
+
+原理：利用script标签没有同源限制。
+
+优缺点：优点是简单兼容性好，缺点是仅支持get请求，不安全可能会遭受XSS攻击。
+
+实现：
+
+```js
+function jsonp({ url, params, callback }) {
+  return new Promise((resolve, reject) => {
+    let script = document.createElement('script')
+    window[callback] = function(data) {
+      resolve(data)
+      document.body.removeChild(script)
+    }
+    params = { ...params, callback } // wd=b&callback=show
+    let arrs = []
+    for (let key in params) {
+      arrs.push(`${key}=${params[key]}`)
+    }
+    script.src = `${url}?${arrs.join('&')}`
+    document.body.appendChild(script)
+  })
+}
+jsonp({
+  url: 'http://localhost:3000/say',
+  params: { wd: 'Iloveyou' },
+  callback: 'show'
+}).then(data => {
+  console.log(data)
+})
+```
+
+2. CORS
+
+CORS主要是服务端配置允许哪些域名访问资源，前端在发送请求时会分为简单请求和复杂请求。
+
+只要同时满足以下两大条件的就是简单请求：
+
+条件1：使用下列方法之一：
+
+- GET
+- HEAD
+- POST
+
+条件2：Content-Type 的值仅限于下列三者之一：
+
+- text/plain
+- multipart/form-data
+- application/x-www-form-urlencoded
+
+不符合以上条件的就是复杂请求。复杂请求会在正式通信之前，增加一次预检请求，该请求是OPTION方法，通过该请求来知道服务器是否允许跨域。
+
+支持ajax请求携带cookie，前后端数据交互规则：
+
 1. 同域名下发送ajax请求，请求中默认会携带cookie
 2. ajax在发送跨域请求时，默认情况下是不会携带cookie的
 3. ajax在发送跨域请求时如果想携带cookie，必须将请求对象的withcredentials属性设置为true。
 4. 此时服务端的响应头Access-Control-Allow-Origin不能为*（星号）了，必须是白名单样式，也就是必须设置允许哪些url才能访问，如：Access-Control-Allow-Origin: http://api.baidu.com
 5. 除了对响应头Access-Control-Allow-Origin的设置，还必须设置另外一个响应头：Access-Control-Allow-Credentials:true。
 
+### cookie跨域
+
+1. 同一域名，设置`domain`和`path`，例如www.baidu.com和v.baidu.com想要共享cookie，可以设置cookie的`domain=.baidu.com,path=/`
+2. cors
+3. nginx反向代理
+4. jsonp
+5. nodejs superagent
+
 ### localStorage跨域
 
 postMessage + iframe
+
+> [九种跨域方式实现原理](https://juejin.im/post/5c23993de51d457b8c1f4ee1)
 
 ## 设计模式
 
