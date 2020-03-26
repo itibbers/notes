@@ -48,6 +48,10 @@ getData(res).then(()=>{
 
 Vue.js 提供了 2 种调用 `nextTick` 的方式，一种是全局 API `Vue.nextTick`，一种是实例上的方法 `vm.$nextTick`，无论我们使用哪一种，最后都是调用 `next-tick.js` 中实现的 `nextTick` 方法。
 
+> [Vue 响应式原理白话版](https://www.njleonzhang.com/2018/09/26/vue-reactive.html)
+>
+> [Vue.js技术揭秘](https://ustbhuangyi.github.io/vue-analysis/v2/prepare/)
+
 ## Object.defineProperty()有什么缺点？Vue2中是如何hack的？
 
 proxy相比defineProperty()优势：
