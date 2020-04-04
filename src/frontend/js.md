@@ -27,9 +27,9 @@ typeof variable => undefined / object / boolean / number / string / function
 - 最优化: **圣杯模式**
 
 ```js
-var inherit = (function(c,p){
+var inherit = (function(c, p){
 	var F = function(){};
-	return function(c,p){
+	return function(c, p){
 		F.prototype = p.prototype;
 		c.prototype = new F();
 		c.uber = p.prototype;
@@ -380,6 +380,10 @@ console.log(8);
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
 
+## Cookie
+
+[预测最近面试会考 Cookie 的 SameSite 属性](https://juejin.im/post/5e718ecc6fb9a07cda098c2d?utm_source=note.wiki)
+
 ## 跨域
 
 同源：协议、域名、端口三者相同。
@@ -482,9 +486,9 @@ postMessage + iframe
 
 > [MVC，MVP 和 MVVM 的图示](http://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html)
 
-### 十大常用设计模式
+### 常用设计模式
 
-1. 工厂模式
+**工厂模式**
 
 工厂模式是为了解决多个类似对象声明的问题，也就是为了解决实例化对象产生重复的问题。
 优点：解决多个相似的问题
@@ -494,7 +498,7 @@ postMessage + iframe
 父类只对创建过程中的一般性问题进行处理，这些处理会被子类继承，子类之间是相互独立的，具体的业务逻辑会放在子类中进行编写。
 父类变成了一个抽象类，但是父类可以执行子类中相同的方法，具体的业务逻辑需要放在子类中实现。
 
-2. 单体模式
+**单体模式**
 
 单体模式提供了一种将代码组织为一个逻辑单元的手段，这个逻辑单元中的代码可以通过单一变量进行访问。
 
@@ -514,7 +518,41 @@ const getInstance = (function(fn) {
 })(fn)
 ```
 
-3. 模块模式
+**策略模式**
+
+```js
+// 执行
+const strategies = {
+  fn1() {},
+  fn2() {},
+  // ...
+}
+// 分发
+const calculator = (fn, options) => {
+  return strategies[fn](options)
+}
+```
+
+优点：
+
+- 策略模式利用组合、委托和多态等技术和思想，可以有效避免多重条件选择语句。
+- 策略模式提供了对开放-封装原则的完美支持，将算法封装在独立的strategy中，使得它们易于切换，易于理解，易于扩展。
+- 策略模式中的算法也可以复用在系统的其他地方，从而避免许多重复的复制粘贴工作。
+- 在策略模式中利用组合和委托来让Context拥有执行算法的能力，这也是继承的一种更轻便的替代方案。
+
+Peter Norvig在他的演讲中曾说过：“在函数作为一等对象的语言中，策略模式是隐形的。strategy就是值为函数的变量。”在Javascript中，除了使用类来封装算法和行为之外，使用函数当然也是一种选择。这些“算法”可以被封装到函数中并且四处传递，也就是我们常说的”高阶函数“。体现代码如下：
+
+```js
+var A = function() {}
+var B = function() {}
+// ...
+var calculator = function(fn, options) {
+  return fn(options)
+}
+calculator(A, 1000)
+```
+
+**模块模式**
 
 模块模式的思路是为单体模式添加私有变量和私有方法，来减少全局变量的使用。（闭包）
 ```js
@@ -532,7 +570,7 @@ const singleMode = (function() {
 })
 ```
 
-4. 代理模式
+**代理模式**
 
 控制对本地对象的访问。
 
@@ -542,8 +580,7 @@ const singleMode = (function() {
 
 关于第二点，代理可以用于控制对那种创建开锁很大的本体访问，它会把本体的实例化推迟到方法被调用的时候，比如说有个实例化很慢的对象不能在网页加载的时候立即完成，可以为其创建个虚拟代理，让该对象实例化推迟。
 
-
-5. 职责链模式
+**职责链模式**
 
 ```js
 // 此处不能使用箭头函数
@@ -624,6 +661,22 @@ ChainB.prototype.run = async function() {
 缺点：
   职责链模式中多了一点节点对象，可能在某一次请求过程中，大部分节点没有起到实质性作用，他们的作用只是让请求传递下去，从性能方面考虑，避免过长的职责链提高性能。
 
+## 面向对象与函数式编程
+
+**函数式编程**
+
+编程=数据+关系，而关系就是函数。我们所谓的**编程工作**也不过就是在找一种**映射关系**，一旦关系找到了，问题就解决了，剩下的事情，就是让数据流过这种关系，然后转换成另一个数据。
+
+特点：
+
+- 函数是一等公民
+- 声明式编程
+- 惰性执行
+- 无状态和数据不可变
+- 没有副作用
+- 纯函数
+
+>  [函数式编程](https://juejin.im/post/5d70e25de51d453c11684cc4)
 
 ## 性能优化
 
