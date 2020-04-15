@@ -14,33 +14,9 @@ typeof variable => undefined / object / boolean / number / string / function
 
 
 
-## 原型、构造函数、实例、原型链
+## 作用域
 
-![prototype](./images/prototype.jpeg)
 
-可以通过 `new` 新建一个实例对象的函数叫构造函数，构造函数的 `prototype` 即原型。每个 Javascript 对象都包含一个`__proto__`属性，指向它的构造函数的原型，通过 `constructor` 属性指向构造函数。
-
-原型链由原型对象组成，每个对象都有 `__proto__` 属性，指向了创建该对象的构造函数的原型，`__proto__` 将对象连接起来组成了原型链。可以通过这个对象链实现继承和共享属性。
-
-## 继承
-
-- 最优化: **圣杯模式**
-
-```js
-var inherit = (function(c, p){
-	var F = function(){};
-	return function(c, p){
-		F.prototype = p.prototype;
-		c.prototype = new F();
-		c.uber = p.prototype;
-		c.prototype.constructor = c;
-	}
-})();
-```
-
-- 使用 ES6 的语法糖 `class / extends`
-
-⚠️待补充class语法糖原理
 
 ## 闭包
 
@@ -56,12 +32,133 @@ var inherit = (function(c, p){
 - 使用`setTimeout`包裹，通过第三个参数传入
 - 使用 **块级作用域**，让变量成为自己上下文的属性，避免共享
 
+## 原型、构造函数、实例、原型链
+
+![prototype](./images/prototype.jpeg)
+
+可以通过 `new` 新建一个实例对象的函数叫构造函数，构造函数的 `prototype` 即原型。每个 Javascript 对象都包含一个`__proto__`属性，指向它的构造函数的原型，通过 `constructor` 属性指向构造函数。
+
+原型链由原型对象组成，每个对象都有 `__proto__` 属性，指向了创建该对象的构造函数的原型，`__proto__` 将对象连接起来组成了原型链。可以通过这个对象链实现继承和共享属性。
+
+## 继承
+
+**寄生组合继承**
+
+通过寄生方式，砍掉父类的实例属性，这样，在调用两次父类的构造的时候，就不会初始化两次实例方法/属性，避免的组合继承的缺点。
+
+```js
+function Animal() {}
+Animal.prototype.run = function() {}
+function Cat(name){
+  Animal.call(this);
+  this.name = name || 'Tom';
+}
+(function() {
+  // 创建一个没有实例方法的类
+  var Super = function(){};
+  Super.prototype = Animal.prototype;
+  // 将实例作为子类的原型
+  Cat.prototype = new Super();
+  Cat.prototype.constructor = Cat;
+})();
+```
+
+**圣杯模式**
+
+```js
+var inherit = (function(c, p){
+	var F = function(){};
+	return function(c, p){
+		F.prototype = p.prototype;
+		c.prototype = new F();
+		c.uber = p.prototype;
+		c.prototype.constructor = c;
+	}
+})();
+```
+
+**使用 ES6 的语法糖 `class / extends`**
+
+⚠️待补充class语法糖原理
+
+## this
+
+- 方法调用模式：this被绑定到该对象
+- 函数调用模式：this被绑定到全局对象（设计缺陷，非严格模式指向全局对象，严格模式为undefined）
+- 构造器调用模式：this被绑定到新对象
+- apply/call调用模式：选择this的值
+- 箭头函数: 首个非箭头函数调用者
+
 ## new执行过程
 
 - 新生成一个对象
 - 链接到原型: `obj.__proto__ = Con.prototype`
 - 绑定this: `apply`
 - 返回新对象(如果构造函数有自己 retrun 时，则返回该值)
+
+## bind
+
+> [bind - MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
+
+**语法**
+
+> function.bind(thisArg[, arg1[, arg2[, ...]]])
+
+**参数**
+
+**thisArg**
+
+调用绑定函数时作为 `this` 参数传递给目标函数的值。 如果使用[`new`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new)运算符构造绑定函数，则忽略该值。当使用 `bind` 在 `setTimeout` 中创建一个函数（作为回调提供）时，作为 `thisArg` 传递的任何原始值都将转换为 `object`。如果 `bind` 函数的参数列表为空，执行作用域的 `this` 将被视为新函数的 `thisArg`。
+
+**arg1, arg2, ...**
+
+当目标函数被调用时，被预置入绑定函数的参数列表中的参数。
+
+**返回**
+
+返回一个原函数的拷贝，并拥有指定的 **`this`** 值和初始参数。
+
+简易实现：
+
+```js
+Function.prototype.bind = Function.prototype.bind || function(oThis) {
+  if(typeof this !== 'function') {
+    return;
+  }
+  var fn = this,
+      args = Array.prototype.slice.call(arguments, 1),
+      fBound = function () {
+        return fn.apply(
+          // 检测是否是 new 创建
+          (this instanceof fn ? this : oThis),
+          args.concat(Array.prototype.slice.call(arguments))
+        );
+      };
+
+  // 链接原型，这样new检测才能判断成功
+  var fNOP = function() {}
+  if(fn.prototype) {
+    // fBound.prototype = fn.prototype; 不直接链接原型
+    fNOP.prototype = fn.prototype;
+  }
+  // 使用空函数，避免fBound原型有修改时，影响原函数原型
+  fBound.prototype = new fNOP();
+
+  return fBound;
+}
+
+// 测试
+function foo(name) {
+  this.name = name;
+}
+var obj = {};
+var bar = foo.myBind(obj);
+bar('Jack');
+console.log(obj.name);  // Jack
+var alice = new bar('Alice');
+console.log(obj.name);  // Jack
+console.log(alice.name);    // Alice
+```
 
 ## 对象拷贝
 
@@ -220,15 +317,6 @@ for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArra
 - 不能使用break跳出循环
 - 每次计算数组长度
 
-
-## this
-
-- 方法调用模式：this被绑定到该对象
-- 函数调用模式：this被绑定到全局对象（设计缺陷，常用that暂替）
-- 构造器调用模式：this被绑定到新对象
-- apply/call调用模式：选择this的值
-- 箭头函数: 首个非箭头函数调用者
-
 ## ES6
 
 [super](http://es6.ruanyifeng.com/#docs/object#super-关键字)
@@ -338,16 +426,16 @@ JS 执行是单线程的，它是基于事件循环的。事件循环大致分�
 
 4. 主线程不断重复上面的第三步。
 
-主线程的执行过程就是一个 tick，而所有的异步结果都是通过 “任务队列” 来调度。 消息队列中存放的是一个个的任务（task）。 规范中规定 task 分为两大类，分别是 macro task 和 micro task，并且每个 macro task 结束后，都要清空所有的 micro task。在ECMAScript中，microtask称为`jobs`，macrotask可称为`task`。
+主线程的执行过程就是一个 tick，而所有的异步结果都是通过 “任务队列” 来调度。 消息队列中存放的是一个个的任务（task）。 规范中规定 task 分为两大类，分别是 macro task 和 micro task，并且每个 macro task 结束后，都要清空所有的 micro task。在ECMAScript中，macrotask可称为`task`，microtask称为`jobs`。
 
-在浏览器环境中，常见的 macro task 有 setTimeout、MessageChannel、postMessage、setImmediate；常见的 micro task 有 MutationObsever 和 Promise.then。
+常见的 macro task 有 setTimeout、MessageChannel、postMessage、setImmediate；常见的 micro task 有 MutationObsever 和 Promise.then。
 
 说下下面程序运行结果：
 
 ```js
-// setImmediate(function(){
-//     console.log(1);
-// },0);
+setImmediate(function(){
+    console.log(1);
+},0);
 setTimeout(function() {
     console.log(12);
 }, 0);
@@ -370,13 +458,14 @@ new Promise(function(resolve) {
     console.log(5);
 });
 console.log(6);
-// process.nextTick(function() {
-//     console.log(7);
-// });
+process.nextTick(function() {
+    console.log(7);
+});
 console.log(8);
-```
 
-3 4 6 8 5 12 2 9 11
+// 3 4 6 8 7 5 12 2 9 11 1
+// 优先级：process.nextTick Promise.then setTimeout setImmediate
+```
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
 
@@ -669,7 +758,7 @@ ChainB.prototype.run = async function() {
 
 特点：
 
-- 函数是一等公民
+- 函数是一等公民（函数可以作为参数进行传递）
 - 声明式编程
 - 惰性执行
 - 无状态和数据不可变
@@ -713,7 +802,7 @@ ChainB.prototype.run = async function() {
 推荐工具：
 
 - webpack-bundle-analyzer 打包分析工具
-- vuex-persistedstate 状态存储
+- vuex-persistedstate vuex状态存储插件
 
 ## fis3
 
