@@ -465,6 +465,29 @@ console.log(8);
 
 // 3 4 6 8 7 5 12 2 9 11 1
 // 优先级：process.nextTick Promise.then setTimeout setImmediate
+
+setTimeout(() => {
+    console.log(0);
+});
+new Promise(resolve => {
+    console.log(1);
+    setTimeout(() => {
+        resolve();
+        Promise.resolve().then(() => {
+            console.log(2);
+            setTimeout(() => console.log(3));
+            Promise.resolve().then(() => console.log(4));
+        });
+        console.log(10)
+    });
+    Promise.resolve().then(() => console.log(5));
+}).then(() => {
+    console.log(6);
+    Promise.resolve().then(() => console.log(7));
+    setTimeout(() => console.log(8));
+});
+console.log(9);
+// 1 9 5 0 10 6 2 7 4 8 3
 ```
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
