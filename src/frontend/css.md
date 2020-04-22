@@ -15,8 +15,21 @@
 | padding-top, padding-bottom | Y | Y | Y | Y |
 | padding-left, padding-right | Y | Y | Y | Y |
 
-inline: width, height, 竖直方向margin不起作用
-inline-(flex|block) 内部表现为flex|block
+* block独占一行，inline-block不换行
+* inline: width, height, 竖直方向margin不起作用
+* inline-(flex|block) 内部表现为flex|block
+
+### position
+
+1. absolute：绝对定位，是相对于最近的且不是static定位的父元素来定位。
+
+2.     fixed：绝对定位，是相对于浏览器窗口来定位的，是固定的，不会跟屏幕一起滚动。
+
+3.     relative：相对定位，是相对于其原本的位置来定位的。
+
+4.     static：默认值，没有定位。
+
+5.     inherit：继承父元素的position值。
 
 ## CSS选择器及其优先级
 

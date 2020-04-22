@@ -465,7 +465,9 @@ console.log(8);
 
 // 3 4 6 8 7 5 12 2 9 11 1
 // 优先级：process.nextTick Promise.then setTimeout setImmediate
+```
 
+```js
 setTimeout(() => {
     console.log(0);
 });
@@ -489,6 +491,8 @@ new Promise(resolve => {
 console.log(9);
 // 1 9 5 0 10 6 2 7 4 8 3
 ```
+
+
 
 > [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://segmentfault.com/a/1190000012925872)
 
