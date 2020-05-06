@@ -11,6 +11,7 @@ module.exports = {
       'css',
       'js',
       'vue',
+      'react',
       'browser',
       'network',
       'algorithm',
