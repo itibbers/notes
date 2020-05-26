@@ -401,6 +401,49 @@ ES6 与 CommonJS 模块的差异
 - CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
 第二个差异是因为 CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。
 
+## Promise
+
+Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。
+
+有三种状态：`pending`（进行中）、`fulfilled`（已成功）和`rejected`（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。
+
+优点：
+
+1. 可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
+2. `Promise`对象提供统一的接口，使得控制异步操作更加容易。
+
+缺点：
+
+1. 无法取消`Promise`，一旦新建它就会立即执行，无法中途取消。
+2. 如果不设置回调函数，`Promise`内部抛出的错误，不会反应到外部。
+3. 当处于`pending`状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+
+API:
+
+Promise.prototype.then(): 为 Promise 实例添加状态改变时的回调函数。`then`方法的第一个参数是`resolved`状态的回调函数，第二个参数（可选）是`rejected`状态的回调函数。可以使用链式写法。
+
+Promise.prototype.catch(): 是`.then(null, rejection)`或`.then(undefined, rejection)`的别名，用于指定发生错误时的回调函数。
+
+Promise.prototype.finally(): 用于指定不管 Promise 对象最后状态如何，都会执行的操作。该方法是 ES2018 引入标准的。
+
+Promise.all(): 用于将多个 Promise 实例，包装成一个新的 Promise 实例，参数可以不是数组，但必须具有 Iterator 接口，且返回的每个成员都是 Promise 实例。
+
+Promise.race(): 同样将多个Promise实例，包装成一个新的Promise实例，所有实例竞速，率先改变的Promise实例的返回值，将传递给回调函数。
+
+Promise.allSettled(): 只有等到所有这些参数实例都返回结果，不管是fulfilled还是rejected，包装实例才会结束。该方法由 ES2020 引入。
+
+Promise.any(): 方法接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例。只要参数实例有一个变成`fulfilled`状态，包装实例就会变成`fulfilled`状态。
+
+Promise.resove(): 将现有对象转为 Promise 对象。
+
+Promise.reject(): `Promise.reject(reason)`方法也会返回一个新的 Promise 实例，该实例的状态为`rejected`。
+
+Promise.try(): 新[提案](https://github.com/ljharb/proposal-promise-try)，使用Promise处理同步和异步操作；捕获所有同步和异步的错误。
+
+
+
+promise与settimeout执行顺序: then和settimeout执行顺序，即**`setTimeout(fn, 0)`在下一轮“事件循环”开始时执行，`Promise.then()`在本轮“事件循环”结束时执行**。因此then 函数先输出，setTimeout后输出。
+
 ## AST
 
 **抽象语法树 (Abstract Syntax Tree)**，是将代码逐字母解析成 **树状对象** 的形式。这是语言之间的转换、代码语法检查，代码风格检查，代码格式化，代码高亮，代码错误提示，代码自动补全等等的基础。
