@@ -24,8 +24,19 @@
 1. absolute：绝对定位，是相对于最近的且不是static定位的父元素来定位。
 2. fixed：绝对定位，是相对于浏览器窗口来定位的，是固定的，不会跟屏幕一起滚动。
 3. relative：相对定位，是相对于其原本的位置来定位的。
-4. static：默认值，没有定位。
-5. inherit：继承父元素的position值。
+4. sticky: 粘性定位，注意：父级元素不能有任何`overflow:visible`以外的overflow设置，否则没有粘滞效果。参考：[杀了个回马枪，还是说说position:sticky吧-张鑫旭](https://www.zhangxinxu.com/wordpress/2018/12/css-position-sticky/)
+5. static：默认值，没有定位。
+6. inherit：继承父元素的position值。
+
+### vertical-align
+
+注意 `vertical-align` 只对行内元素、表格单元格元素生效：不能用它垂直对齐[块级元素](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Block-level_elements)。
+
+块、行内块元素内子元素垂直对齐方法：设置父元素`height`、`line-height`属性。
+
+默认值：`baseline`
+
+参考：[What is Vertical Align?](https://css-tricks.com/what-is-vertical-align/)
 
 ## CSS选择器及其优先级
 

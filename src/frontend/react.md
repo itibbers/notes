@@ -210,6 +210,49 @@ function Story(props) {
 
 从概念上讲，React 组件一直更像是函数。而 Hook 则拥抱了函数，同时也没有牺牲 React 的精神原则。
 
+## Hook API 索引
+
+### 基础 Hook
+
+#### useState
+
+> 函数式更新
+
+```js
+setCount(prevCount => prevCount + 1)
+```
+
+`useState`不会自动合并对象，可以结合展开运算符来达到合并更新对象的效果。
+
+useReducer 是另一种可选方案，它更适合用于管理包含多个子值的 state 对象。
+
+> 惰性初始 state
+
+只会在组件的初始渲染中起作用，后续渲染时会被忽略。
+
+```js
+const [state, setState] = useState(() => {
+  const initialState = someExpensiveComputation(props);
+  return initialState;
+});
+```
+
+> 跳过 state 更新
+
+React 使用 [`Object.is` 比较算法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is#Description) 来比较 state。
+
+如果你在渲染期间执行了高开销的计算，则可以使用 `useMemo` 来进行优化。
+
+#### useEffect
+
+> 清除 effect
+
+useEffect 可以返回一个清除函数。为防止内存泄漏，清除函数会在组件卸载前执行。如果组件多次渲染（通常如此），则**在执行下一个 effect 之前，上一个 effect 就已被清除**。
+
+
+
+
+
 # Awesome-React
 
 [React](https://zh-hans.reactjs.org/)
