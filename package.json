@@ -26,7 +26,9 @@
     }
   },
   "lint-staged": {
-    "src/**": ["prettier --write"]
+    "src/**": [
+      "prettier --write"
+    ]
   },
   "repository": {
     "type": "git",
