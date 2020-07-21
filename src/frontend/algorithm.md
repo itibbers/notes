@@ -17,12 +17,12 @@
 ### 冒泡排序
 
 ```js
-Array.prototype.bubbleSort = function() {
+Array.prototype.bubbleSort = function () {
   const len = this.length
   for (let i = len; i >= 2; i--) {
     for (let j = 0; j <= i - 1; j++) {
       if (this[j] > this[j + 1]) {
-        [this[j], this[j + 1]] = [this[j + 1], this[j]]
+        ;[this[j], this[j + 1]] = [this[j + 1], this[j]]
       }
     }
   }
@@ -35,27 +35,27 @@ Array.prototype.bubbleSort = function() {
 ### 选择排序
 
 ```js
-Array.prototype.selectSort = function() {
-    const len = this.length
-    for(let i = 0; i < len - 1; i++) {
-        for(let j = i ; j < len; j++) {
-            if(this[j] < this[i]) {
-                [this[i], this[j]] = [this[j], this[i]]
-            }
-        }
+Array.prototype.selectSort = function () {
+  const len = this.length
+  for (let i = 0; i < len - 1; i++) {
+    for (let j = i; j < len; j++) {
+      if (this[j] < this[i]) {
+        ;[this[i], this[j]] = [this[j], this[i]]
+      }
     }
-    return this
+  }
+  return this
 }
 ```
 
 ### 插入排序
 
 ```js
-Array.prototype.insertSort = function() {
+Array.prototype.insertSort = function () {
   for (let i = 1; i < this.length; i++) {
     for (let j = i; j > 0; j--) {
       if (this[j] < this[j - 1]) {
-        [this[j], this[j - 1]] = [this[j - 1], this[j]]
+        ;[this[j], this[j - 1]] = [this[j - 1], this[j]]
       } else {
         break
       }
@@ -68,10 +68,12 @@ Array.prototype.insertSort = function() {
 ### 快速排序
 
 ```js
-Array.prototype.quickSort = function() {
+Array.prototype.quickSort = function () {
   const len = this.length
   if (len < 2) return this
-  const mid = this[0], left = [], right = []
+  const mid = this[0],
+    left = [],
+    right = []
   for (let i = 1; i < len; i++) {
     const iv = this[i]
     iv < mid ? left.push(iv) : right.push(iv)
@@ -80,9 +82,8 @@ Array.prototype.quickSort = function() {
 }
 ```
 
-`Array.prototype.sort()`在数组元素数量小于等于10时使用冒泡排序，否则使用快速排序。
+`Array.prototype.sort()`在数组元素数量小于等于 10 时使用冒泡排序，否则使用快速排序。
 
 ## 动态规划
 
->  [Dynamic Programming Patterns](https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns)
-
+> [Dynamic Programming Patterns](https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns)

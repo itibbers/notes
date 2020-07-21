@@ -2,7 +2,7 @@
 
 [[TOC]]
 
-## 从输入URL到展示的过程
+## 从输入 URL 到展示的过程
 
 - DNS 解析
 - TCP 三次握手
@@ -15,7 +15,7 @@
   - CSS parser --> Style Tree
     - 解析 css 代码，生成样式树
   - attachment --> Render Tree
-    - 结合 dom树 与 style树，生成渲染树
+    - 结合 dom 树 与 style 树，生成渲染树
   - layout: 布局
   - GPU painting: 像素绘制页面
 
@@ -25,7 +25,7 @@
 
 当元素的样式发生变化时，浏览器需要触发更新，重新绘制元素。这个过程中，有两种类型的操作，即重绘与回流。
 
-- **重绘(repaint)**: 当元素样式的改变不影响布局时，浏览器将使用重绘对元素进行更新，此时由于只需要UI层面的重新像素绘制，因此 **损耗较少**
+- **重绘(repaint)**: 当元素样式的改变不影响布局时，浏览器将使用重绘对元素进行更新，此时由于只需要 UI 层面的重新像素绘制，因此 **损耗较少**
 - **回流(reflow)**: 当元素的尺寸、结构或触发某些属性时，浏览器会重新渲染页面，称为回流。此时，浏览器需要重新经过计算，计算后还需要重新页面布局，因此是较重的操作。会触发回流的操作:
   - 页面初次渲染
   - 浏览器窗口大小改变
@@ -64,14 +64,14 @@
 
 ```js
 // 创建 worker
-const worker = new Worker('work.js');
+const worker = new Worker('work.js')
 
 // 向主进程推送消息
-worker.postMessage('Hello World');
+worker.postMessage('Hello World')
 
 // 监听主进程来的消息
 worker.onmessage = function (event) {
-  console.log('Received message ' + event.data);
+  console.log('Received message ' + event.data)
 }
 ```
 
@@ -81,25 +81,25 @@ worker.onmessage = function (event) {
 - 无法使用 `document` / `window` / `alert` / `confirm`
 - 无法加载本地资源
 
-## V8垃圾回收机制
+## V8 垃圾回收机制
 
 垃圾回收: 将内存中不再使用的数据进行清理，释放出内存空间。V8 将内存分成 **新生代空间** 和 **老生代空间**。
 
 - 新生代空间：用于存活较短的对象
 
   - 又分成两个空间: from 空间 与 to 空间
-  - Scavenge GC算法: 当 from 空间被占满时，启动 GC 算法
+  - Scavenge GC 算法: 当 from 空间被占满时，启动 GC 算法
     - 存活的对象从 from space 转移到 to space
     - 清空 from space
     - from space 与 to space 互换
-    - 完成一次新生代GC
+    - 完成一次新生代 GC
 
 - 老生代空间：用于存活时间较长的对象
 
   - 从 新生代空间 转移到 老生代空间 的条件
 
     - 经历过一次以上 Scavenge GC 的对象
-    - 当 to space 体积超过25%
+    - 当 to space 体积超过 25%
 
   - 标记清除算法
 
@@ -125,4 +125,3 @@ worker.onmessage = function (event) {
 推荐工具：
 
 - spy-debugger
-

@@ -5,20 +5,21 @@ const config = {
   base: '/',
   title: 'note.wiki',
   description: '少侠是个练武奇才，我将毕生所学传授予你<br> (๑•̀ㅂ•́) ✧',
-  head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }]
-  ],
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   plugins: [
-    ['@vuepress/google-analytics', {
-      ga: 'UA-104632485-5'
-    }],
-    "vuepress-plugin-cat"
+    [
+      '@vuepress/google-analytics',
+      {
+        ga: 'UA-104632485-5',
+      },
+    ],
+    'vuepress-plugin-cat',
   ],
   themeConfig: {
     displayAllHeaders: true,
     lastUpdated: 'Last Updated',
     serviceWorker: {
-      updatePopup: true
+      updatePopup: true,
     },
     repo: 'itibbers/notes',
     repoLabel: 'Github',
@@ -26,12 +27,12 @@ const config = {
     docsDir: 'src',
     docsBranch: 'master',
     editLinks: true,
-    editLinkText: 'Edit this page'
+    editLinkText: 'Edit this page',
   },
   markdown: {
-    lineNumbers: false
+    lineNumbers: false,
   },
-  evergreen: true
+  evergreen: true,
 }
 
 Object.assign(config.themeConfig, menu)

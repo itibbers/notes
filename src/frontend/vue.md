@@ -2,18 +2,18 @@
 
 [[TOC]]
 
-## Vue响应式原理
+## Vue 响应式原理
 
-Vue双向数据绑定主要是指：视图变化更新数据，数据变化更新视图。如图所示：
+Vue 双向数据绑定主要是指：视图变化更新数据，数据变化更新视图。如图所示：
 
 ![](./images/view-data.png)
 
 即：
 
-* 输入框内容变化时，Data中数据同时变化
-* Data中数据变化时，文本节点内容同时变化
+- 输入框内容变化时，Data 中数据同时变化
+- Data 中数据变化时，文本节点内容同时变化
 
-其中View更新Data可能通过事件监听的方式实现，所以Vue的双向数据绑定工作主要是如何根据Data变化更新View。
+其中 View 更新 Data 可能通过事件监听的方式实现，所以 Vue 的双向数据绑定工作主要是如何根据 Data 变化更新 View。
 
 Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 
@@ -31,14 +31,14 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 
 ### 派发更新
 
-`dep.notify()`会遍历Watcher触发`watcher.update()`,`update()`添加到更新队列中，在下一次`$nextTick`时执行更新操作。
+`dep.notify()`会遍历 Watcher 触发`watcher.update()`,`update()`添加到更新队列中，在下一次`$nextTick`时执行更新操作。
 
 ### nextTick
 
 数据的变化到 DOM 的重新渲染是一个异步过程，发生在下一个 tick。这就是我们平时在开发的过程中，比如从服务端接口去获取数据的时候，数据做了修改，如果我们的某些方法去依赖了数据修改后的 DOM 变化，我们就必须在 `nextTick` 后执行。比如下面的伪代码：
 
 ```js
-getData(res).then(()=>{
+getData(res).then(() => {
   this.xxx = res.data
   this.$nextTick(() => {
     // 这里我们可以获取变化后的 DOM
@@ -50,11 +50,11 @@ Vue.js 提供了 2 种调用 `nextTick` 的方式，一种是全局 API `Vue.nex
 
 > [Vue 响应式原理白话版](https://www.njleonzhang.com/2018/09/26/vue-reactive.html)
 >
-> [Vue.js技术揭秘](https://ustbhuangyi.github.io/vue-analysis/v2/prepare/)
+> [Vue.js 技术揭秘](https://ustbhuangyi.github.io/vue-analysis/v2/prepare/)
 
-## Object.defineProperty()有什么缺点？Vue2中是如何hack的？
+## Object.defineProperty()有什么缺点？Vue2 中是如何 hack 的？
 
-proxy相比defineProperty()优势：
+proxy 相比 defineProperty()优势：
 
 - 数组变化也能监听到
 - 不需要深度遍历监听
@@ -62,16 +62,16 @@ proxy相比defineProperty()优势：
 ```js
 let data = { a: 1 }
 let reactiveData = new Proxy(data, {
-	get: function(target, name){
-		// ...
-	},
-	// ...
+  get: function (target, name) {
+    // ...
+  },
+  // ...
 })
 ```
 
-## key的作用
+## key 的作用
 
-1. 让vue精准的追踪到每一个元素，**高效的更新虚拟DOM**。
+1. 让 vue 精准的追踪到每一个元素，**高效的更新虚拟 DOM**。
 2. 触发过渡
 
 ```html
@@ -80,56 +80,56 @@ let reactiveData = new Proxy(data, {
 </transition>
 ```
 
-当text改变时，这个元素的key属性就发生了改变，在渲染更新时，Vue会认为这里新产生了一个元素，而老的元素由于key不存在了，所以会被删除，从而触发了过渡。妙啊！
+当 text 改变时，这个元素的 key 属性就发生了改变，在渲染更新时，Vue 会认为这里新产生了一个元素，而老的元素由于 key 不存在了，所以会被删除，从而触发了过渡。妙啊！
 
-## scoped样式穿透
+## scoped 样式穿透
 
-scoped虽然避免了组件间样式污染，但是很多时候我们需要修改组件中的某个样式，但是又不想去除scoped属性。
+scoped 虽然避免了组件间样式污染，但是很多时候我们需要修改组件中的某个样式，但是又不想去除 scoped 属性。
 
 1. 使用/deep/
 
 ```html
 //Parent
 <template>
-<div class="wrap">
+  <div class="wrap">
     <Child />
-</div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.wrap /deep/ .box{
+  .wrap /deep/ .box {
     background: red;
-}
+  }
 </style>
 
 //Child
 <template>
-    <div class="box"></div>
+  <div class="box"></div>
 </template>
 ```
 
-1. 使用两个style标签
+1. 使用两个 style 标签
 
 ```html
 //Parent
 <template>
-<div class="wrap">
+  <div class="wrap">
     <Child />
-</div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-//其他样式
+  //其他样式
 </style>
 <style lang="scss">
-.wrap .box{
+  .wrap .box {
     background: red;
-}
+  }
 </style>
 
 //Child
 <template>
-    <div class="box"></div>
+  <div class="box"></div>
 </template>
 ```
 
@@ -151,4 +151,3 @@ scoped虽然避免了组件间样式污染，但是很多时候我们需要修�
 - `actions`: 异步更改状态
 - `getters`: 获取状态
 - `modules`: 将`state`分成多个`modules`，便于管理
-

@@ -13,7 +13,6 @@
 | defer | 异步下载，延后执行 |
 | async | 异步下载，立即执行 |
 
-
 ## tags
 
 [input](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input)

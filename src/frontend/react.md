@@ -8,17 +8,13 @@
 
 3. State 的更新会被合并
 
+> 为什么会有 setState，setState 做了什么？
 
-
-> 为什么会有setState，setState做了什么？
-
-vue是对数据添加监听，自动响应到dom上，setState是更新数据的同时，更新dom
-
-
+vue 是对数据添加监听，自动响应到 dom 上，setState 是更新数据的同时，更新 dom
 
 这通常会被叫做“自上而下”或是“单向”的数据流。任何的 state 总是所属于特定的组件，而且从该 state 派生的任何数据或 UI 只能影响树中“低于”它们的组件。
 
-> 函数为什么要绑定this
+> 函数为什么要绑定 this
 
 ```jsx
 // 构造器中绑定
@@ -40,9 +36,7 @@ class Comp extends React.Component {
     super(props)
   }
   render() {
-    return (
-    	<div></div>
-    )
+    return <div></div>
   }
 }
 ```
@@ -53,7 +47,7 @@ class Comp extends React.Component {
 
 key
 
-props.children默认slot，也可以指向slot-name，注意react中没有槽slot概念，一切可以使用props传递
+props.children 默认 slot，也可以指向 slot-name，注意 react 中没有槽 slot 概念，一切可以使用 props 传递
 
 ```jsx
 left = {
@@ -61,7 +55,7 @@ left = {
 }
 ```
 
-## React哲学
+## React 哲学
 
 ### 第一步：将设计好的 UI 划分为组件层级
 
@@ -85,7 +79,7 @@ React **单向数据流**（也叫*单向绑定*）的思想使得组件模块�
 
 ### 第三步：确定 UI state 的最小（且完整）表示
 
-确定是否是state：由用户行为触发改变且不依赖其它state或props的数据
+确定是否是 state：由用户行为触发改变且不依赖其它 state 或 props 的数据
 
 ### 第四步：确定 state 放置的位置
 
@@ -97,9 +91,9 @@ React **单向数据流**（也叫*单向绑定*）的思想使得组件模块�
 
 React 通过一种比传统的双向绑定略微繁琐的方法来实现反向数据传递。尽管如此，但这种需要显式声明的方法更有助于人们理解程序的运作方式。
 
-> 函数式编程思想。另外确实不如vue双向绑定简洁。
+> 函数式编程思想。另外确实不如 vue 双向绑定简洁。
 
-由于 state 只能由拥有它们的组件进行更改，父组件可以将一个能够改变state的回调函数传递给子组件，从而更新应用。
+由于 state 只能由拥有它们的组件进行更改，父组件可以将一个能够改变 state 的回调函数传递给子组件，从而更新应用。
 
 语法：
 
@@ -111,9 +105,9 @@ import { Fragment, createRef } from 'react'
 
 ### import()
 
-代码分割最佳方式是动态import()语法，webpack解析到该语法时，会自动进行代码分割。如果使用create-react-app，该功能开箱即用。
+代码分割最佳方式是动态 import()语法，webpack 解析到该语法时，会自动进行代码分割。如果使用 create-react-app，该功能开箱即用。
 
-当使用babel时，要确保正确解析import语法而不是将其转换，需要使用babel-plugin-sync-dynamic-import插件
+当使用 babel 时，要确保正确解析 import 语法而不是将其转换，需要使用 babel-plugin-sync-dynamic-import 插件
 
 ```jsx
 import("./math").then(math => {})
@@ -127,9 +121,9 @@ import("./math").then(math => {})
 ### React.lazy()
 
 ```jsx
-import React, { Suspense } from 'react';
+import React, { Suspense } from 'react'
 
-const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const OtherComponent = React.lazy(() => import('./OtherComponent'))
 
 function MyComponent() {
   return (
@@ -138,50 +132,50 @@ function MyComponent() {
         <OtherComponent />
       </Suspense>
     </div>
-  );
+  )
 }
 ```
 
 ### 基于路由的代码分割
 
 ```jsx
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-const Home = lazy(() => import('./routes/Home'));
-const About = lazy(() => import('./routes/About'));
+const Home = lazy(() => import('./routes/Home'))
+const About = lazy(() => import('./routes/About'))
 
 const App = () => (
   <Router>
     <Suspense fallback={<div>Loading...</div>}>
       <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/about" component={About}/>
+        <Route exact path='/' component={Home} />
+        <Route path='/about' component={About} />
       </Switch>
     </Suspense>
   </Router>
-);
+)
 ```
 
-## 深入JSX
+## 深入 JSX
 
 ### 在运行时选择类型
 
-类似vue动态组件，在JSX中，不能将通用表达式作为React元素类型，需要先将它赋值给大写字母开头的变量，再渲染。
+类似 vue 动态组件，在 JSX 中，不能将通用表达式作为 React 元素类型，需要先将它赋值给大写字母开头的变量，再渲染。
 
 ```jsx
-import React from 'react';
-import { PhotoStory, VideoStory } from './stories';
+import React from 'react'
+import { PhotoStory, VideoStory } from './stories'
 
 const components = {
   photo: PhotoStory,
-  video: VideoStory
-};
+  video: VideoStory,
+}
 
 function Story(props) {
   // 正确！JSX 类型可以是大写字母开头的变量。
-  const SpecificStory = components[props.storyType];
-  return <SpecificStory story={props.story} />;
+  const SpecificStory = components[props.storyType]
+  return <SpecificStory story={props.story} />
 }
 ```
 
@@ -196,11 +190,11 @@ function Story(props) {
   }
 ```
 
-虽然脱离DOM树，但依然在React树中。
+虽然脱离 DOM 树，但依然在 React 树中。
 
 ## Render props
 
-类似vue slot
+类似 vue slot
 
 # Hook
 
@@ -219,7 +213,7 @@ function Story(props) {
 > 函数式更新
 
 ```js
-setCount(prevCount => prevCount + 1)
+setCount((prevCount) => prevCount + 1)
 ```
 
 `useState`不会自动合并对象，可以结合展开运算符来达到合并更新对象的效果。
@@ -232,9 +226,9 @@ useReducer 是另一种可选方案，它更适合用于管理包含多个子值
 
 ```js
 const [state, setState] = useState(() => {
-  const initialState = someExpensiveComputation(props);
-  return initialState;
-});
+  const initialState = someExpensiveComputation(props)
+  return initialState
+})
 ```
 
 > 跳过 state 更新
@@ -249,21 +243,17 @@ React 使用 [`Object.is` 比较算法](https://developer.mozilla.org/en-US/docs
 
 useEffect 可以返回一个清除函数。为防止内存泄漏，清除函数会在组件卸载前执行。如果组件多次渲染（通常如此），则**在执行下一个 effect 之前，上一个 effect 就已被清除**。
 
-
-
-
-
 # Awesome-React
 
 [React](https://zh-hans.reactjs.org/)
 
-[React生命周期](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
+[React 生命周期](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
-[了解React设计思想](https://github.com/react-guide/react-basic)
+[了解 React 设计思想](https://github.com/react-guide/react-basic)
 
-[webpack中文文档](https://webpack.docschina.org/)
+[webpack 中文文档](https://webpack.docschina.org/)
 
-[Create-React-App官方脚手架](https://create-react-app.dev)
+[Create-React-App 官方脚手架](https://create-react-app.dev)
 
 [react-router](https://reacttraining.com/react-router/web/guides/quick-start)
 
@@ -272,4 +262,3 @@ useEffect 可以返回一个清除函数。为防止内存泄漏，清除函数�
 [webpack-lazy-loading](https://webpack.docschina.org/guides/lazy-loading)
 
 [loadable-vs-react-lazy/](https://loadable-components.com/docs/loadable-vs-react-lazy/)
-
