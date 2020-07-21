@@ -10,6 +10,7 @@ module.exports = {
       '',
       'css',
       'js',
+      'es',
       'vue',
       'react',
       'browser',
