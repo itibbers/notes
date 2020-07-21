@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-set -e
+set -ex
 
 yarn run docs:build
 
 echo 'note.wiki' > docs/CNAME
 
 git add -A
-git commit -m 'deploy'
+git commit -m 'Auto deploy'
 git push
