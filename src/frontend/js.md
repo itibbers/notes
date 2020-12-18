@@ -36,6 +36,27 @@ typeof variable => undefined / object / boolean / number / string / function
 
 原型链由原型对象组成，每个对象都有 `__proto__` 属性，指向了创建该对象的构造函数的原型，`__proto__` 将对象连接起来组成了原型链。可以通过这个对象链实现继承和共享属性。
 
+![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gh4na0prluj30eg0gagmu.jpg)
+
+```js
+Object.__proto__ === Function.__proto__
+true
+
+Object.__proto__
+ƒ () { [native code] }
+
+Function.prototype.__proto__ === Object.prototype
+true
+
+Object.prototype.__proto__ === null
+true
+
+Function.prototype.__proto__
+{constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+```
+
+`__proto__` 可翻译为`原型实现`
+
 ## 继承
 
 **寄生组合继承**
