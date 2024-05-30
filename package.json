@@ -16,8 +16,8 @@
     "vuepress-plugin-cat": "^1.0.3"
   },
   "scripts": {
-    "docs:dev": "vuepress dev src",
-    "docs:build": "vuepress build src",
+    "dev": "vuepress dev src",
+    "build": "vuepress build src",
     "deploy": "sh ./deploy.sh"
   },
   "husky": {

@@ -2,7 +2,7 @@
 
 set -ex
 
-yarn run docs:build
+yarn run build
 
 echo 'note.wiki' > docs/CNAME
 
