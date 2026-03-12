@@ -7,8 +7,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 pnpm dev       # Start VitePress dev server (serves src/)
 pnpm build     # Build static site to docs/
-pnpm deploy    # Build + commit + push (auto deploy via deploy.sh)
 ```
+
+Deployment is automated via GitHub Actions — push to `master` triggers a build and deploy to GitHub Pages automatically.
 
 Prettier runs automatically on `src/**` files at pre-commit via husky + lint-staged.
 
@@ -21,8 +22,9 @@ This is a [VitePress](https://vitepress.dev/) static site that publishes to GitH
 - **`src/`** — Markdown content source files. All new notes go here.
 - **`src/frontend/`** — The main content section (css, js, es, vue, react, ssr, browser, network, algorithm, lib).
 - **`src/.vitepress/config.mts`** — VitePress config: sets `outDir` to `../docs`, nav, sidebar, GA, edit links.
-- **`docs/`** — Built output (committed to master, served via GitHub Pages). Do not edit manually.
-- **`deploy.sh`** — Builds, writes `docs/CNAME`, then commits and pushes everything to master.
+- **`docs/`** — Built output served via GitHub Pages. Do not edit manually.
+- **`.github/workflows/deploy.yml`** — GitHub Actions workflow: builds on push to `master`, deploys via `actions/deploy-pages`.
+- **`deploy.sh`** — Legacy manual deploy script (no longer needed).
 - **`.npmrc`** — Sets `shamefully-hoist=true` (required for VitePress under pnpm).
 
 ## Adding Content
