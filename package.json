@@ -8,16 +8,14 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@vuepress/plugin-google-analytics": "^1.1.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
-    "vuepress": "^1.1.0",
-    "vuepress-plugin-cat": "^1.0.3"
+    "vitepress": "^1.6.3"
   },
   "scripts": {
-    "dev": "vuepress dev src",
-    "build": "vuepress build src",
+    "dev": "vitepress dev src",
+    "build": "vitepress build src",
     "deploy": "sh ./deploy.sh"
   },
   "husky": {

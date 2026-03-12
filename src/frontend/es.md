@@ -1,6 +1,5 @@
 # ES 新特性一览（持续更新）
 
-[[TOC]]
 
 > ES 全称 ECMAScript，ECMAScript 是 ECMA 制定的标准化脚本语言。目前 JavaScript 使用的 ECMAScript 版本为[ECMA-417](https://ecma-international.org/publications/standards/Ecma-417.htm)。关于 ECMA 的最新资讯可以浏览 [ECMA news](https://www.ecma-international.org/news/index.html)查看。
 

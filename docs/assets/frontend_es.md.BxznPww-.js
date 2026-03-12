@@ -1,0 +1,668 @@
+import{_ as s,o as n,c as p,ae as e}from"./chunks/framework.EHGTsUvI.js";const u=JSON.parse('{"title":"ES 新特性一览（持续更新）","description":"","frontmatter":{},"headers":[],"relativePath":"frontend/es.md","filePath":"frontend/es.md","lastUpdated":1595308383000}'),l={name:"frontend/es.md"};function t(i,a,o,c,r,d){return n(),p("div",null,[...a[0]||(a[0]=[e(`<h1 id="es-新特性一览-持续更新" tabindex="-1">ES 新特性一览（持续更新） <a class="header-anchor" href="#es-新特性一览-持续更新" aria-label="Permalink to &quot;ES 新特性一览（持续更新）&quot;">​</a></h1><blockquote><p>ES 全称 ECMAScript，ECMAScript 是 ECMA 制定的标准化脚本语言。目前 JavaScript 使用的 ECMAScript 版本为<a href="https://ecma-international.org/publications/standards/Ecma-417.htm" target="_blank" rel="noreferrer">ECMA-417</a>。关于 ECMA 的最新资讯可以浏览 <a href="https://www.ecma-international.org/news/index.html" target="_blank" rel="noreferrer">ECMA news</a>查看。</p></blockquote><p>ECMA 规范最终由<a href="https://github.com/tc39" target="_blank" rel="noreferrer">TC39</a>敲定。TC39 由包括浏览器厂商在内的各方组成，他们开会推动 JavaScript 提案沿着一条严格的发展道路前进。 从提案到入选 ECMA 规范主要有以下几个阶段：</p><ul><li>Stage 0: strawman——最初想法的提交。</li><li>Stage 1: proposal（提案）——由 TC39 至少一名成员倡导的正式提案文件，该文件包括 API 事例。</li><li>Stage 2: draft（草案）——功能规范的初始版本，该版本包含功能规范的两个实验实现。</li><li>Stage 3: candidate（候选）——提案规范通过审查并从厂商那里收集反馈</li><li>Stage 4: finished（完成）——提案准备加入 ECMAScript，但是到浏览器或者 Nodejs 中可能需要更长的时间。</li></ul><h2 id="es6-新特性-2015" tabindex="-1">ES6 新特性（2015） <a class="header-anchor" href="#es6-新特性-2015" aria-label="Permalink to &quot;ES6 新特性（2015）&quot;">​</a></h2><p>ES6 的特性比较多，在 ES5 发布近 6 年（2009-11 至 2015-6）之后才将其标准化。两个发布版本之间时间跨度很大，所以 ES6 中的特性比较多。 在这里列举几个常用的：</p><ul><li>类</li><li>模块化</li><li>箭头函数</li><li>函数参数默认值</li><li>模板字符串</li><li>解构赋值</li><li>延展操作符</li><li>对象属性简写</li><li>Promise</li><li>Let 与 Const</li></ul><h3 id="_1-类-class" tabindex="-1">1.类（class） <a class="header-anchor" href="#_1-类-class" aria-label="Permalink to &quot;1.类（class）&quot;">​</a></h3><p>对熟悉 Java，object-c，c#等纯面向对象语言的开发者来说，都会对 class 有一种特殊的情怀。ES6 引入了 class（类），让 JavaScript 的面向对象编程变得更加简单和易于理解。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>  class Animal {</span></span>
+<span class="line"><span>    // 构造函数，实例化的时候将会被调用，如果不指定，那么会有一个不带参数的默认构造函数.</span></span>
+<span class="line"><span>    constructor(name,color) {</span></span>
+<span class="line"><span>      this.name = name;</span></span>
+<span class="line"><span>      this.color = color;</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    // toString 是原型对象上的属性</span></span>
+<span class="line"><span>    toString() {</span></span>
+<span class="line"><span>      console.log(&#39;name:&#39; + this.name + &#39;,color:&#39; + this.color);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> var animal = new Animal(&#39;dog&#39;,&#39;white&#39;);//实例化Animal</span></span>
+<span class="line"><span> animal.toString();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> console.log(animal.hasOwnProperty(&#39;name&#39;)); //true</span></span>
+<span class="line"><span> console.log(animal.hasOwnProperty(&#39;toString&#39;)); // false</span></span>
+<span class="line"><span> console.log(animal.__proto__.hasOwnProperty(&#39;toString&#39;)); // true</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> class Cat extends Animal {</span></span>
+<span class="line"><span>  constructor(action) {</span></span>
+<span class="line"><span>    // 子类必须要在constructor中指定super 函数，否则在新建实例的时候会报错.</span></span>
+<span class="line"><span>    // 如果没有置顶consructor,默认带super函数的constructor将会被添加、</span></span>
+<span class="line"><span>    super(&#39;cat&#39;,&#39;white&#39;);</span></span>
+<span class="line"><span>    this.action = action;</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  toString() {</span></span>
+<span class="line"><span>    console.log(super.toString());</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span> }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> var cat = new Cat(&#39;catch&#39;)</span></span>
+<span class="line"><span> cat.toString();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> // 实例cat 是 Cat 和 Animal 的实例，和Es5完全一致。</span></span>
+<span class="line"><span> console.log(cat instanceof Cat); // true</span></span>
+<span class="line"><span> console.log(cat instanceof Animal); // true</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_2-模块化-module" tabindex="-1">2.模块化(Module) <a class="header-anchor" href="#_2-模块化-module" aria-label="Permalink to &quot;2.模块化(Module)&quot;">​</a></h3><p>ES5 不支持原生的模块化，在 ES6 中模块作为重要的组成部分被添加进来。模块的功能主要由 export 和 import 组成。每一个模块都有自己单独的作用域，模块之间的相互调用关系是通过 export 来规定模块对外暴露的接口，通过 import 来引用其它模块提供的接口。同时还为模块创造了命名空间，防止函数的命名冲突。</p><h4 id="导出-export" tabindex="-1">导出(export) <a class="header-anchor" href="#导出-export" aria-label="Permalink to &quot;导出(export)&quot;">​</a></h4><p>ES6 允许在一个模块中使用 export 来导出多个变量或函数。</p><p><strong>导出变量</strong></p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>//test.js</span></span>
+<span class="line"><span>export var name = &#39;Rainbow&#39;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>心得：ES6 不仅支持变量的导出，也支持常量的导出。 <code>export const sqrt = Math.sqrt;//导出常量</code></p></blockquote><p>ES6 将一个文件视为一个模块，上面的模块通过 export 向外输出了一个变量。一个模块也可以同时往外面输出多个变量。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span> //test.js</span></span>
+<span class="line"><span> var name = &#39;Rainbow&#39;;</span></span>
+<span class="line"><span> var age = &#39;24&#39;;</span></span>
+<span class="line"><span> export {name, age};</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p><strong>导出函数</strong></p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>// myModule.js</span></span>
+<span class="line"><span>export function myModule(someArg) {</span></span>
+<span class="line"><span>  return someArg;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h4 id="导入-import" tabindex="-1">导入(import) <a class="header-anchor" href="#导入-import" aria-label="Permalink to &quot;导入(import)&quot;">​</a></h4><p>定义好模块的输出以后就可以在另外一个模块通过 import 引用。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>import {myModule} from &#39;myModule&#39;;// main.js</span></span>
+<span class="line"><span>import {name,age} from &#39;test&#39;;// test.js</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>心得:一条 import 语句可以同时导入默认函数和其它变量。<code>import defaultMethod, { otherMethod } from &#39;xxx.js&#39;;</code></p></blockquote><h3 id="_3-箭头-arrow-函数" tabindex="-1">3.箭头（Arrow）函数 <a class="header-anchor" href="#_3-箭头-arrow-函数" aria-label="Permalink to &quot;3.箭头（Arrow）函数&quot;">​</a></h3><p>这是 ES6 中最令人激动的特性之一。<code>=&gt;</code>不只是关键字 function 的简写，它还带来了其它好处。箭头函数与包围它的代码共享同一个<code>this</code>,能帮你很好的解决 this 的指向问题。有经验的 JavaScript 开发者都熟悉诸如<code>var self = this;</code>或<code>var that = this</code>这种引用外围 this 的模式。但借助<code>=&gt;</code>，就不需要这种模式了。</p><h4 id="箭头函数的结构" tabindex="-1">箭头函数的结构 <a class="header-anchor" href="#箭头函数的结构" aria-label="Permalink to &quot;箭头函数的结构&quot;">​</a></h4><p>箭头函数的箭头=&gt;之前是一个空括号、单个的参数名、或用括号括起的多个参数名，而箭头之后可以是一个表达式（作为函数的返回值），或者是用花括号括起的函数体（需要自行通过 return 来返回值，否则返回的是 undefined）。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>// 箭头函数的例子</span></span>
+<span class="line"><span>()=&gt;1</span></span>
+<span class="line"><span>v=&gt;v+1</span></span>
+<span class="line"><span>(a,b)=&gt;a+b</span></span>
+<span class="line"><span>()=&gt;{</span></span>
+<span class="line"><span>    alert(&quot;foo&quot;);</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>e=&gt;{</span></span>
+<span class="line"><span>    if (e == 0){</span></span>
+<span class="line"><span>        return 0;</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    return 1000/e;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>心得：不论是箭头函数还是 bind，每次被执行都返回的是一个新的函数引用，因此如果你还需要函数的引用去做一些别的事情（譬如卸载监听器），那么你必须自己保存这个引用。</p></blockquote><h4 id="卸载监听器时的陷阱" tabindex="-1">卸载监听器时的陷阱 <a class="header-anchor" href="#卸载监听器时的陷阱" aria-label="Permalink to &quot;卸载监听器时的陷阱&quot;">​</a></h4><blockquote><p><strong>错误的做法</strong></p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>class PauseMenu extends React.Component{</span></span>
+<span class="line"><span>    componentWillMount(){</span></span>
+<span class="line"><span>        AppStateIOS.addEventListener(&#39;change&#39;, this.onAppPaused.bind(this));</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    componentWillUnmount(){</span></span>
+<span class="line"><span>        AppStateIOS.removeEventListener(&#39;change&#39;, this.onAppPaused.bind(this));</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    onAppPaused(event){</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p><strong>正确的做法</strong></p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>class PauseMenu extends React.Component{</span></span>
+<span class="line"><span>    constructor(props){</span></span>
+<span class="line"><span>        super(props);</span></span>
+<span class="line"><span>        this._onAppPaused = this.onAppPaused.bind(this);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    componentWillMount(){</span></span>
+<span class="line"><span>        AppStateIOS.addEventListener(&#39;change&#39;, this._onAppPaused);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    componentWillUnmount(){</span></span>
+<span class="line"><span>        AppStateIOS.removeEventListener(&#39;change&#39;, this._onAppPaused);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    onAppPaused(event){</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>除上述的做法外，我们还可以这样做：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>class PauseMenu extends React.Component{</span></span>
+<span class="line"><span>    componentWillMount(){</span></span>
+<span class="line"><span>        AppStateIOS.addEventListener(&#39;change&#39;, this.onAppPaused);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    componentWillUnmount(){</span></span>
+<span class="line"><span>        AppStateIOS.removeEventListener(&#39;change&#39;, this.onAppPaused);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    onAppPaused = (event) =&gt; {</span></span>
+<span class="line"><span>        //把函数直接作为一个arrow function的属性来定义，初始化的时候就绑定好了this指针</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>需要注意的是：不论是 bind 还是箭头函数，每次被执行都返回的是一个新的函数引用，因此如果你还需要函数的引用去做一些别的事情（譬如卸载监听器），那么你必须自己保存这个引用。</p></blockquote><h3 id="_4-函数参数默认值" tabindex="-1">4.<a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FJavaScript%2FReference%2FFunctions%2Fdefault_parameters" target="_blank" rel="noreferrer">函数参数默认值</a> <a class="header-anchor" href="#_4-函数参数默认值" aria-label="Permalink to &quot;4.[函数参数默认值](https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FJavaScript%2FReference%2FFunctions%2Fdefault_parameters)&quot;">​</a></h3><p>ES6 支持在定义函数的时候为其设置默认值：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function foo(height = 50, color = &#39;red&#39;)</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    // ...</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>不使用默认值：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function foo(height, color)</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    var height = height || 50;</span></span>
+<span class="line"><span>    var color = color || &#39;red&#39;;</span></span>
+<span class="line"><span>    //...</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>这样写一般没问题，但当<code>参数的布尔值为false</code>时，就会有问题了。比如，我们这样调用 foo 函数：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>foo(0, &quot;&quot;)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>因为<code>0的布尔值为false</code>，这样 height 的取值将是 50。同理 color 的取值为‘red’。</p><p>所以说，<code>函数参数默认值</code>不仅能是代码变得更加简洁而且能规避一些问题。</p><h3 id="_5-模板字符串" tabindex="-1">5.模板字符串 <a class="header-anchor" href="#_5-模板字符串" aria-label="Permalink to &quot;5.模板字符串&quot;">​</a></h3><p>ES6 支持<code>模板字符串</code>，使得字符串的拼接更加的简洁、直观。</p><blockquote><p>不使用模板字符串：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var name = &#39;Your name is &#39; + first + &#39; &#39; + last + &#39;.&#39;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用模板字符串：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var name = \`Your name is \${first} \${last}.\`</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>在 ES6 中通过<code>\${}</code>就可以完成字符串的拼接，只需要将变量放在大括号之中。</p><h3 id="_6-解构赋值" tabindex="-1">6.<a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FJavaScript%2FReference%2FOperators%2FDestructuring_assignment" target="_blank" rel="noreferrer">解构赋值</a> <a class="header-anchor" href="#_6-解构赋值" aria-label="Permalink to &quot;6.[解构赋值](https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FJavaScript%2FReference%2FOperators%2FDestructuring_assignment)&quot;">​</a></h3><p>解构赋值语法是 JavaScript 的一种表达式，可以方便的从数组或者对象中快速提取值赋给定义的变量。</p><h4 id="获取数组中的值" tabindex="-1">获取数组中的值 <a class="header-anchor" href="#获取数组中的值" aria-label="Permalink to &quot;获取数组中的值&quot;">​</a></h4><p>从数组中获取值并赋值到变量中，变量的顺序与数组中对象顺序对应。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var foo = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>var [one, two, three] = foo;</span></span>
+<span class="line"><span>console.log(one); // &quot;one&quot;</span></span>
+<span class="line"><span>console.log(two); // &quot;two&quot;</span></span>
+<span class="line"><span>console.log(three); // &quot;three&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>//如果你要忽略某些值，你可以按照下面的写法获取你想要的值</span></span>
+<span class="line"><span>var [first, , , last] = foo;</span></span>
+<span class="line"><span>console.log(first); // &quot;one&quot;</span></span>
+<span class="line"><span>console.log(last); // &quot;four&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>//你也可以这样写</span></span>
+<span class="line"><span>var a, b; //先声明变量</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>[a, b] = [1, 2];</span></span>
+<span class="line"><span>console.log(a); // 1</span></span>
+<span class="line"><span>console.log(b); // 2</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>如果没有从数组中的获取到值，你可以为变量设置一个默认值。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var a, b;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>[a=5, b=7] = [1];</span></span>
+<span class="line"><span>console.log(a); // 1</span></span>
+<span class="line"><span>console.log(b); // 7</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>通过解构赋值可以方便的交换两个变量的值。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var a = 1;</span></span>
+<span class="line"><span>var b = 3;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>[a, b] = [b, a];</span></span>
+<span class="line"><span>console.log(a); // 3</span></span>
+<span class="line"><span>console.log(b); // 1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h4 id="获取对象中的值" tabindex="-1">获取对象中的值 <a class="header-anchor" href="#获取对象中的值" aria-label="Permalink to &quot;获取对象中的值&quot;">​</a></h4><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const student = {</span></span>
+<span class="line"><span>  name:&#39;Ming&#39;,</span></span>
+<span class="line"><span>  age:&#39;18&#39;,</span></span>
+<span class="line"><span>  city:&#39;Shanghai&#39;</span></span>
+<span class="line"><span>};</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>const {name,age,city} = student;</span></span>
+<span class="line"><span>console.log(name); // &quot;Ming&quot;</span></span>
+<span class="line"><span>console.log(age); // &quot;18&quot;</span></span>
+<span class="line"><span>console.log(city); // &quot;Shanghai&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_7-延展操作符-spread-operator" tabindex="-1">7.延展操作符(Spread operator) <a class="header-anchor" href="#_7-延展操作符-spread-operator" aria-label="Permalink to &quot;7.延展操作符(Spread operator)&quot;">​</a></h3><p><code>延展操作符...</code>可以在函数调用/数组构造时, 将数组表达式或者 string 在语法层面展开；还可以在构造对象时, 将对象表达式按 key-value 的方式展开。</p><h4 id="语法" tabindex="-1">语法 <a class="header-anchor" href="#语法" aria-label="Permalink to &quot;语法&quot;">​</a></h4><blockquote><p>函数调用：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>myFunction(...iterableObj);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>数组构造或字符串：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>[...iterableObj, &#39;4&#39;, ...&#39;hello&#39;, 6];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>构造对象时,进行克隆或者属性拷贝（ECMAScript 2018 规范新增特性）：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let objClone = { ...obj };</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h4 id="应用场景" tabindex="-1">应用场景 <a class="header-anchor" href="#应用场景" aria-label="Permalink to &quot;应用场景&quot;">​</a></h4><blockquote><p>在函数调用时使用延展操作符</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function sum(x, y, z) {</span></span>
+<span class="line"><span>  return x + y + z;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>const numbers = [1, 2, 3];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>//不使用延展操作符</span></span>
+<span class="line"><span>console.log(sum.apply(null, numbers));</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>//使用延展操作符</span></span>
+<span class="line"><span>console.log(sum(...numbers));// 6</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>构造数组</p></blockquote><p>没有展开语法的时候，只能组合使用 push，splice，concat 等方法，来将已有数组元素变成新数组的一部分。有了展开语法, 构造新数组会变得更简单、更优雅：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const stuendts = [&#39;Jine&#39;,&#39;Tom&#39;];</span></span>
+<span class="line"><span>const persons = [&#39;Tony&#39;,... stuendts,&#39;Aaron&#39;,&#39;Anna&#39;];</span></span>
+<span class="line"><span>conslog.log(persions)// [&quot;Tony&quot;, &quot;Jine&quot;, &quot;Tom&quot;, &quot;Aaron&quot;, &quot;Anna&quot;]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>和参数列表的展开类似, <code>...</code> 在构造字数组时, 可以在任意位置多次使用。</p><blockquote><p>数组拷贝</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var arr = [1, 2, 3];</span></span>
+<span class="line"><span>var arr2 = [...arr]; // 等同于 arr.slice()</span></span>
+<span class="line"><span>arr2.push(4);</span></span>
+<span class="line"><span>console.log(arr2)//[1, 2, 3, 4]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>展开语法和 Object.assign() 行为一致, 执行的都是浅拷贝(只遍历一层)。</p><blockquote><p>连接多个数组</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var arr1 = [0, 1, 2];</span></span>
+<span class="line"><span>var arr2 = [3, 4, 5];</span></span>
+<span class="line"><span>var arr3 = [...arr1, ...arr2];// 将 arr2 中所有元素附加到 arr1 后面并返回</span></span>
+<span class="line"><span>//等同于</span></span>
+<span class="line"><span>var arr4 = arr1.concat(arr2);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h4 id="在-ecmascript-2018-中延展操作符增加了对对象的支持" tabindex="-1">在 ECMAScript 2018 中延展操作符增加了对对象的支持 <a class="header-anchor" href="#在-ecmascript-2018-中延展操作符增加了对对象的支持" aria-label="Permalink to &quot;在 ECMAScript 2018 中延展操作符增加了对对象的支持&quot;">​</a></h4><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var obj1 = { foo: &#39;bar&#39;, x: 42 };</span></span>
+<span class="line"><span>var obj2 = { foo: &#39;baz&#39;, y: 13 };</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>var clonedObj = { ...obj1 };</span></span>
+<span class="line"><span>// 克隆后的对象: { foo: &quot;bar&quot;, x: 42 }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>var mergedObj = { ...obj1, ...obj2 };</span></span>
+<span class="line"><span>// 合并后的对象: { foo: &quot;baz&quot;, x: 42, y: 13 }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h4 id="在-react-中的应用" tabindex="-1">在 React 中的应用 <a class="header-anchor" href="#在-react-中的应用" aria-label="Permalink to &quot;在 React 中的应用&quot;">​</a></h4><p>通常我们在封装一个组件时，会对外公开一些 props 用于实现功能。大部分情况下在外部使用都应显示的传递 props 。但是当传递大量的 props 时，会非常繁琐，这时我们可以使用 <code>...(延展操作符,用于取出参数对象的所有可遍历属性)</code> 来进行传递。</p><h4 id="一般情况下我们应该这样写" tabindex="-1">一般情况下我们应该这样写 <a class="header-anchor" href="#一般情况下我们应该这样写" aria-label="Permalink to &quot;一般情况下我们应该这样写&quot;">​</a></h4><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>&lt;CustomComponent name =&#39;Jine&#39; age ={21} /&gt;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用 ... ，等同于上面的写法</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const params = {</span></span>
+<span class="line"><span>	name: &#39;Jine&#39;,</span></span>
+<span class="line"><span>	age: 21</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>&lt;CustomComponent {...params} /&gt;</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>配合解构赋值避免传入一些不需要的参数</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var params = {</span></span>
+<span class="line"><span>	name: &#39;123&#39;,</span></span>
+<span class="line"><span>	title: &#39;456&#39;,</span></span>
+<span class="line"><span>	type: &#39;aaa&#39;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>var { type, ...other } = params;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>&lt;CustomComponent type=&#39;normal&#39; number={2} {...other} /&gt;</span></span>
+<span class="line"><span>//等同于</span></span>
+<span class="line"><span>&lt;CustomComponent type=&#39;normal&#39; number={2} name=&#39;123&#39; title=&#39;456&#39; /&gt;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_8-对象属性简写" tabindex="-1">8.对象属性简写 <a class="header-anchor" href="#_8-对象属性简写" aria-label="Permalink to &quot;8.对象属性简写&quot;">​</a></h3><p>在 ES6 中允许我们在设置一个对象的属性的时候不指定属性名。</p><blockquote><p>不使用 ES6</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const name=&#39;Ming&#39;,age=&#39;18&#39;,city=&#39;Shanghai&#39;;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>const student = {</span></span>
+<span class="line"><span>    name:name,</span></span>
+<span class="line"><span>    age:age,</span></span>
+<span class="line"><span>    city:city</span></span>
+<span class="line"><span>};</span></span>
+<span class="line"><span>console.log(student);//{name: &quot;Ming&quot;, age: &quot;18&quot;, city: &quot;Shanghai&quot;}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>对象中必须包含属性和值，显得非常冗余。</p><blockquote><p>使用 ES6</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const name=&#39;Ming&#39;,age=&#39;18&#39;,city=&#39;Shanghai&#39;;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>const student = {</span></span>
+<span class="line"><span>    name,</span></span>
+<span class="line"><span>    age,</span></span>
+<span class="line"><span>    city</span></span>
+<span class="line"><span>};</span></span>
+<span class="line"><span>console.log(student);//{name: &quot;Ming&quot;, age: &quot;18&quot;, city: &quot;Shanghai&quot;}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>对象中直接写变量，非常简洁。</p><h3 id="_9-promise" tabindex="-1">9.<a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FJavaScript%2FGuide%2FUsing_promises" target="_blank" rel="noreferrer">Promise</a> <a class="header-anchor" href="#_9-promise" aria-label="Permalink to &quot;9.[Promise](https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FJavaScript%2FGuide%2FUsing_promises)&quot;">​</a></h3><p>Promise 是异步编程的一种解决方案，比传统的解决方案 callback 更加的优雅。它最早由社区提出和实现的，ES6 将其写进了语言标准，统一了用法，原生提供了 Promise 对象。</p><blockquote><p>不使用 ES6</p></blockquote><p>嵌套两个 setTimeout 回调函数：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>setTimeout(function()</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    console.log(&#39;Hello&#39;); // 1秒后输出&quot;Hello&quot;</span></span>
+<span class="line"><span>    setTimeout(function()</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>        console.log(&#39;Hi&#39;); // 2秒后输出&quot;Hi&quot;</span></span>
+<span class="line"><span>    }, 1000);</span></span>
+<span class="line"><span>}, 1000);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用 ES6</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var waitSecond = new Promise(function(resolve, reject)</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    setTimeout(resolve, 1000);</span></span>
+<span class="line"><span>});</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>waitSecond</span></span>
+<span class="line"><span>    .then(function()</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>      console.log(&quot;Hello&quot;); // 1秒后输出&quot;Hello&quot;</span></span>
+<span class="line"><span>      return waitSecond;</span></span>
+<span class="line"><span>    })</span></span>
+<span class="line"><span>    .then(function()</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>        console.log(&quot;Hi&quot;); // 2秒后输出&quot;Hi&quot;</span></span>
+<span class="line"><span>    });</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>上面的的代码使用两个 then 来进行异步编程串行化，避免了回调地狱：</p><h3 id="_10-支持-let-与-const" tabindex="-1">10.支持 let 与 const <a class="header-anchor" href="#_10-支持-let-与-const" aria-label="Permalink to &quot;10.支持 let 与 const&quot;">​</a></h3><p>在之前 JS 是没有块级作用域的，const 与 let 填补了这方便的空白，const 与 let 都是块级作用域。</p><blockquote><p>使用 var 定义的变量为函数级作用域：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  var a = 10;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>console.log(a); // 输出10</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用 let 与 const 定义的变量为块级作用域：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  let a = 10;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>console.log(a); //-1 or Error“ReferenceError: a is not defined”</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h2 id="es7-新特性-2016" tabindex="-1">ES7 新特性（2016） <a class="header-anchor" href="#es7-新特性-2016" aria-label="Permalink to &quot;ES7 新特性（2016）&quot;">​</a></h2><p>ES2016 添加了两个小的特性来说明标准化过程：</p><ul><li>数组 includes()方法，用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回 false。</li><li>a ** b 指数运算符，它与 Math.pow(a, b)相同。</li></ul><h3 id="_1-array-prototype-includes" tabindex="-1">1.Array.prototype.includes() <a class="header-anchor" href="#_1-array-prototype-includes" aria-label="Permalink to &quot;1.Array.prototype.includes()&quot;">​</a></h3><p><code>includes()</code> 函数用来判断一个数组是否包含一个指定的值，如果包含则返回 <code>true</code>，否则返回<code>false</code>。</p><p><code>includes</code> 函数与 <code>indexOf</code> 函数很相似，下面两个表达式是等价的：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>arr.includes(x)</span></span>
+<span class="line"><span>arr.indexOf(x) &gt;= 0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>接下来我们来判断数字中是否包含某个元素：</p><blockquote><p>在 ES7 之前的做法</p></blockquote><p>使用<code>indexOf()</code>验证数组中是否存在某个元素，这时需要根据返回值是否为-1 来判断：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let arr = [&#39;react&#39;, &#39;angular&#39;, &#39;vue&#39;];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>if (arr.indexOf(&#39;react&#39;) !== -1)</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    console.log(&#39;react存在&#39;);</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用 ES7 的 includes()</p></blockquote><p>使用 includes()验证数组中是否存在某个元素，这样更加直观简单：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let arr = [&#39;react&#39;, &#39;angular&#39;, &#39;vue&#39;];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>if (arr.includes(&#39;react&#39;))</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    console.log(&#39;react存在&#39;);</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_2-指数操作符" tabindex="-1">2.指数操作符 <a class="header-anchor" href="#_2-指数操作符" aria-label="Permalink to &quot;2.指数操作符&quot;">​</a></h3><p>在 ES7 中引入了指数运算符<code>**</code>，<code>**</code>具有与<code>Math.pow(..)</code>等效的计算结果。</p><blockquote><p>不使用指数操作符</p></blockquote><p>使用自定义的递归函数 calculateExponent 或者 Math.pow()进行指数运算：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function calculateExponent(base, exponent)</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    if (exponent === 1)</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>        return base;</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    else</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>        return base * calculateExponent(base, exponent - 1);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>console.log(calculateExponent(2, 10)); // 输出1024</span></span>
+<span class="line"><span>console.log(Math.pow(2, 10)); // 输出1024</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用指数操作符</p></blockquote><p>使用指数运算符**，就像+、-等操作符一样：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>console.log(2**10);// 输出1024</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h2 id="es8-新特性-2017" tabindex="-1">ES8 新特性（2017） <a class="header-anchor" href="#es8-新特性-2017" aria-label="Permalink to &quot;ES8 新特性（2017）&quot;">​</a></h2><ul><li>async/await</li><li><code>Object.values()</code></li><li><code>Object.entries()</code></li><li>String padding: <code>padStart()</code>和<code>padEnd()</code>，填充字符串达到当前长度</li><li>函数参数列表结尾允许逗号</li><li><code>Object.getOwnPropertyDescriptors()</code></li><li><code>ShareArrayBuffer</code>和<code>Atomics</code>对象，用于从共享内存位置读取和写入</li></ul><h3 id="_1-async-await" tabindex="-1">1.async/await <a class="header-anchor" href="#_1-async-await" aria-label="Permalink to &quot;1.async/await&quot;">​</a></h3><p>ES2018 引入异步迭代器（asynchronous iterators），这就像常规迭代器，除了<code>next()</code>方法返回一个 Promise。因此<code>await</code>可以和<code>for...of</code>循环一起使用，以串行的方式运行异步操作。例如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>async function process(array) {</span></span>
+<span class="line"><span>  for await (let i of array) {</span></span>
+<span class="line"><span>    doSomething(i);</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_2-object-values" tabindex="-1">2.Object.values() <a class="header-anchor" href="#_2-object-values" aria-label="Permalink to &quot;2.Object.values()&quot;">​</a></h3><p><code>Object.values()</code>是一个与<code>Object.keys()</code>类似的新函数，但返回的是 Object 自身属性的所有值，不包括继承的值。</p><p>假设我们要遍历如下对象<code>obj</code>的所有值：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const obj = {a: 1, b: 2, c: 3};</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>不使用 Object.values() :ES7</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const vals=Object.keys(obj).map(key=&gt;obj[key]);</span></span>
+<span class="line"><span>console.log(vals);//[1, 2, 3]</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用 Object.values() :ES8</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const values=Object.values(obj1);</span></span>
+<span class="line"><span>console.log(values);//[1, 2, 3]</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>从上述代码中可以看出<code>Object.values()</code>为我们省去了遍历 key，并根据这些 key 获取 value 的步骤。</p><h3 id="_3-object-entries" tabindex="-1">3.Object.entries() <a class="header-anchor" href="#_3-object-entries" aria-label="Permalink to &quot;3.Object.entries()&quot;">​</a></h3><p><code>Object.entries()</code>函数返回一个给定对象自身可枚举属性的键值对的数组。</p><p>接下来我们来遍历上文中的<code>obj</code>对象的所有属性的 key 和 value：</p><blockquote><p>不使用 Object.entries() :ES7</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>Object.keys(obj).forEach(key=&gt;{</span></span>
+<span class="line"><span>	console.log(&#39;key:&#39;+key+&#39; value:&#39;+obj[key]);</span></span>
+<span class="line"><span>})</span></span>
+<span class="line"><span>//key:a value:1</span></span>
+<span class="line"><span>//key:b value:2</span></span>
+<span class="line"><span>//key:c value:3</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>使用 Object.entries() :ES8</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>for(let [key,value] of Object.entries(obj1)){</span></span>
+<span class="line"><span>	console.log(\`key: \${key} value:\${value}\`)</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>//key:a value:1</span></span>
+<span class="line"><span>//key:b value:2</span></span>
+<span class="line"><span>//key:c value:3</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_4-string-padding" tabindex="-1">4.String padding <a class="header-anchor" href="#_4-string-padding" aria-label="Permalink to &quot;4.String padding&quot;">​</a></h3><p>在 ES8 中 String 新增了两个实例函数<code>String.prototype.padStart</code>和<code>String.prototype.padEnd</code>，允许将空字符串或其他字符串添加到原始字符串的开头或结尾。</p><blockquote><p>String.padStart(targetLength,[padString])</p></blockquote><ul><li>targetLength:当前字符串需要填充到的目标长度。如果这个数值小于当前字符串的长度，则返回当前字符串本身。</li><li>padString:(可选)填充字符串。如果字符串太长，使填充后的字符串长度超过了目标长度，则只保留最左侧的部分，其他部分会被截断，此参数的缺省值为 &quot; &quot;。</li></ul><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>console.log(&#39;0.0&#39;.padStart(4,&#39;10&#39;)) //10.0</span></span>
+<span class="line"><span>console.log(&#39;0.0&#39;.padStart(20))// 0.00</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><blockquote><p>String.padEnd(targetLength,padString])</p></blockquote><ul><li>targetLength:当前字符串需要填充到的目标长度。如果这个数值小于当前字符串的长度，则返回当前字符串本身。</li><li>padString:(可选) 填充字符串。如果字符串太长，使填充后的字符串长度超过了目标长度，则只保留最左侧的部分，其他部分会被截断，此参数的缺省值为 &quot; &quot;；</li></ul><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>console.log(&#39;0.0&#39;.padEnd(4,&#39;0&#39;)) //0.00</span></span>
+<span class="line"><span>console.log(&#39;0.0&#39;.padEnd(10,&#39;0&#39;))//0.00000000</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_5-函数参数列表结尾允许逗号" tabindex="-1">5.函数参数列表结尾允许逗号 <a class="header-anchor" href="#_5-函数参数列表结尾允许逗号" aria-label="Permalink to &quot;5.函数参数列表结尾允许逗号&quot;">​</a></h3><p>主要作用是方便使用 git 进行多人协作开发时修改同一个函数减少不必要的行变更。</p><h3 id="_6-object-getownpropertydescriptors" tabindex="-1">6.Object.getOwnPropertyDescriptors() <a class="header-anchor" href="#_6-object-getownpropertydescriptors" aria-label="Permalink to &quot;6.Object.getOwnPropertyDescriptors()&quot;">​</a></h3><p><code>Object.getOwnPropertyDescriptors()</code>函数用来获取一个对象的所有自身属性的描述符,如果没有任何自身属性，则返回空对象。</p><blockquote><p>函数原型：</p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>Object.getOwnPropertyDescriptors(obj)</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>返回<code>obj</code>对象的所有自身属性的描述符，如果没有任何自身属性，则返回空对象。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const obj2 = {</span></span>
+<span class="line"><span>	name: &#39;Jine&#39;,</span></span>
+<span class="line"><span>	get age() { return &#39;18&#39; }</span></span>
+<span class="line"><span>};</span></span>
+<span class="line"><span>Object.getOwnPropertyDescriptors(obj2)</span></span>
+<span class="line"><span>// {</span></span>
+<span class="line"><span>//   age: {</span></span>
+<span class="line"><span>//     configurable: true,</span></span>
+<span class="line"><span>//     enumerable: true,</span></span>
+<span class="line"><span>//     get: function age(){},</span><span> //the getter function</span></span>
+<span class="line"><span>//     set: undefined</span></span>
+<span class="line"><span>//   },</span></span>
+<span class="line"><span>//   name: {</span></span>
+<span class="line"><span>//     configurable: true,</span></span>
+<span class="line"><span>//     enumerable: true,</span></span>
+<span class="line"><span>//		value:&quot;Jine&quot;,</span></span>
+<span class="line"><span>//		writable:true</span></span>
+<span class="line"><span>//   }</span></span>
+<span class="line"><span>// }</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_7-sharedarraybuffer-对象" tabindex="-1">7.SharedArrayBuffer 对象 <a class="header-anchor" href="#_7-sharedarraybuffer-对象" aria-label="Permalink to &quot;7.SharedArrayBuffer 对象&quot;">​</a></h3><p>SharedArrayBuffer 对象用来表示一个通用的，固定长度的原始二进制数据缓冲区，类似于 ArrayBuffer 对象，它们都可以用来在共享内存（shared memory）上创建视图。与 ArrayBuffer 不同的是，SharedArrayBuffer 不能被分离。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>/**</span></span>
+<span class="line"><span> *</span></span>
+<span class="line"><span> * @param {*} length 所创建的数组缓冲区的大小，以字节(byte)为单位。</span></span>
+<span class="line"><span> * @returns {SharedArrayBuffer} 一个大小指定的新 SharedArrayBuffer 对象。其内容被初始化为 0。</span></span>
+<span class="line"><span> */</span></span>
+<span class="line"><span>new SharedArrayBuffer(length)</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_8-atomics-对象" tabindex="-1">8.Atomics 对象 <a class="header-anchor" href="#_8-atomics-对象" aria-label="Permalink to &quot;8.Atomics 对象&quot;">​</a></h3><p>Atomics 对象提供了一组静态方法用来对 SharedArrayBuffer 对象进行原子操作。</p><p>这些原子操作属于 Atomics 模块。与一般的全局对象不同，Atomics 不是构造函数，因此不能使用 new 操作符调用，也不能将其当作函数直接调用。Atomics 的所有属性和方法都是静态的（与 Math 对象一样）。</p><p>多个共享内存的线程能够同时读写同一位置上的数据。原子操作会确保正在读或写的数据的值是符合预期的，即下一个原子操作一定会在上一个原子操作结束后才会开始，其操作过程不会中断。</p><ul><li>Atomics.add()</li></ul><blockquote><p>将指定位置上的数组元素与给定的值相加，并返回相加前该元素的值。</p></blockquote><ul><li>Atomics.and()</li></ul><blockquote><p>将指定位置上的数组元素与给定的值相与，并返回与操作前该元素的值。</p></blockquote><ul><li>Atomics.compareExchange()</li></ul><blockquote><p>如果数组中指定的元素与给定的值相等，则将其更新为新的值，并返回该元素原先的值。</p></blockquote><ul><li>Atomics.exchange()</li></ul><blockquote><p>将数组中指定的元素更新为给定的值，并返回该元素更新前的值。</p></blockquote><ul><li>Atomics.load()</li></ul><blockquote><p>返回数组中指定元素的值。</p></blockquote><ul><li>Atomics.or()</li></ul><blockquote><p>将指定位置上的数组元素与给定的值相或，并返回或操作前该元素的值。</p></blockquote><ul><li>Atomics.store()</li></ul><blockquote><p>将数组中指定的元素设置为给定的值，并返回该值。</p></blockquote><ul><li>Atomics.sub()</li></ul><blockquote><p>将指定位置上的数组元素与给定的值相减，并返回相减前该元素的值。</p></blockquote><ul><li>Atomics.xor()</li></ul><blockquote><p>将指定位置上的数组元素与给定的值相异或，并返回异或操作前该元素的值。</p></blockquote><p>wait() 和 wake() 方法采用的是 Linux 上的 futexes 模型（fast user-space mutex，快速用户空间互斥量），可以让进程一直等待直到某个特定的条件为真，主要用于实现阻塞。</p><ul><li>Atomics.wait()</li></ul><blockquote><p>检测数组中某个指定位置上的值是否仍然是给定值，是则保持挂起直到被唤醒或超时。返回值为 &quot;ok&quot;、&quot;not-equal&quot; 或 &quot;time-out&quot;。调用时，如果当前线程不允许阻塞，则会抛出异常（大多数浏览器都不允许在主线程中调用 wait()）。</p></blockquote><ul><li>Atomics.wake()</li></ul><blockquote><p>唤醒等待队列中正在数组指定位置的元素上等待的线程。返回值为成功唤醒的线程数量。</p></blockquote><ul><li>Atomics.isLockFree(size)</li></ul><blockquote><p>可以用来检测当前系统是否支持硬件级的原子操作。对于指定大小的数组，如果当前系统支持硬件级的原子操作，则返回 true；否则就意味着对于该数组，Atomics 对象中的各原子操作都只能用锁来实现。此函数面向的是技术专家。--&gt;</p></blockquote><h2 id="es9-新特性-2018" tabindex="-1">ES9 新特性（2018） <a class="header-anchor" href="#es9-新特性-2018" aria-label="Permalink to &quot;ES9 新特性（2018）&quot;">​</a></h2><ul><li>异步迭代</li><li>Promise.finally()</li><li>Rest/Spread 属性</li><li><a href="http://esnext.justjavac.com/proposal/regexp-named-groups.html" target="_blank" rel="noreferrer">正则表达式命名捕获组</a>（Regular Expression Named Capture Groups）</li><li><a href="https://segmentfault.com/a/1190000006824133" target="_blank" rel="noreferrer">正则表达式反向断言</a>（lookbehind）</li><li>正则表达式 dotAll 模式</li><li><a href="https://juejin.im/post/5b2a186cf265da596d04a648#heading-1" target="_blank" rel="noreferrer">正则表达式 Unicode 转义</a></li><li><a href="https://juejin.im/post/5b2a186cf265da596d04a648#heading-1" target="_blank" rel="noreferrer">非转义序列的模板字符串</a></li></ul><h3 id="_1-异步迭代" tabindex="-1">1.异步迭代 <a class="header-anchor" href="#_1-异步迭代" aria-label="Permalink to &quot;1.异步迭代&quot;">​</a></h3><p>在<code>async/await</code>的某些时刻，你可能尝试在同步循环中调用异步函数。例如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>async function process(array) {</span></span>
+<span class="line"><span>  for (let i of array) {</span></span>
+<span class="line"><span>    await doSomething(i);</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>这段代码不会正常运行，下面这段同样也不会：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>async function process(array) {</span></span>
+<span class="line"><span>  array.forEach(async i =&gt; {</span></span>
+<span class="line"><span>    await doSomething(i);</span></span>
+<span class="line"><span>  });</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>这段代码中，循环本身依旧保持同步，并在在内部异步函数之前全部调用完成。</p><p>ES2018 引入异步迭代器（asynchronous iterators），这就像常规迭代器，除了<code>next()</code>方法返回一个 Promise。因此<code>await</code>可以和<code>for...of</code>循环一起使用，以串行的方式运行异步操作。例如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>async function process(array) {</span></span>
+<span class="line"><span>  for await (let i of array) {</span></span>
+<span class="line"><span>    doSomething(i);</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_2-promise-finally" tabindex="-1">2.Promise.finally() <a class="header-anchor" href="#_2-promise-finally" aria-label="Permalink to &quot;2.Promise.finally()&quot;">​</a></h3><p>一个 Promise 调用链要么成功到达最后一个<code>.then()</code>，要么失败触发<code>.catch()</code>。在某些情况下，你想要在无论 Promise 运行成功还是失败，运行相同的代码，例如清除，删除对话，关闭数据库连接等。</p><p><code>.finally()</code>允许你指定最终的逻辑：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function doSomething() {</span></span>
+<span class="line"><span>  doSomething1()</span></span>
+<span class="line"><span>  .then(doSomething2)</span></span>
+<span class="line"><span>  .then(doSomething3)</span></span>
+<span class="line"><span>  .catch(err =&gt; {</span></span>
+<span class="line"><span>    console.log(err);</span></span>
+<span class="line"><span>  })</span></span>
+<span class="line"><span>  .finally(() =&gt; {</span></span>
+<span class="line"><span>    // finish here!</span></span>
+<span class="line"><span>  });</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_3-rest-spread-属性" tabindex="-1">3.Rest/Spread 属性 <a class="header-anchor" href="#_3-rest-spread-属性" aria-label="Permalink to &quot;3.Rest/Spread 属性&quot;">​</a></h3><p>ES2015 引入了<a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FJavaScript%2FReference%2FFunctions%2FRest_parameters" target="_blank" rel="noreferrer">Rest 参数</a>和<a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FJavaScript%2FReference%2FOperators%2FSpread_syntax" target="_blank" rel="noreferrer">扩展运算符</a>。三个点（...）仅用于数组。Rest 参数语法允许我们将一个不定数量的参数表示为一个数组。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>restParam(1, 2, 3, 4, 5);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function restParam(p1, p2, ...p3) {</span></span>
+<span class="line"><span>  // p1 = 1</span></span>
+<span class="line"><span>  // p2 = 2</span></span>
+<span class="line"><span>  // p3 = [3, 4, 5]</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>展开操作符以相反的方式工作，将数组转换成可传递给函数的单独参数。例如<code>Math.max()</code>返回给定数字中的最大值：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const values = [99, 100, -1, 48, 16];</span></span>
+<span class="line"><span>console.log( Math.max(...values) ); // 100</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>ES2018 为对象解构提供了和数组一样的 Rest 参数（）和展开操作符，一个简单的例子：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const myObject = {</span></span>
+<span class="line"><span>  a: 1,</span></span>
+<span class="line"><span>  b: 2,</span></span>
+<span class="line"><span>  c: 3</span></span>
+<span class="line"><span>};</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>const { a, ...x } = myObject;</span></span>
+<span class="line"><span>// a = 1</span></span>
+<span class="line"><span>// x = { b: 2, c: 3 }</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>或者你可以使用它给函数传递参数：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>restParam({</span></span>
+<span class="line"><span>  a: 1,</span></span>
+<span class="line"><span>  b: 2,</span></span>
+<span class="line"><span>  c: 3</span></span>
+<span class="line"><span>});</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function restParam({ a, ...x }) {</span></span>
+<span class="line"><span>  // a = 1</span></span>
+<span class="line"><span>  // x = { b: 2, c: 3 }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>跟数组一样，Rest 参数只能在声明的结尾处使用。此外，它只适用于每个对象的顶层，如果对象中嵌套对象则无法适用。</p><p>扩展运算符可以在其他对象内使用，例如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const obj1 = { a: 1, b: 2, c: 3 };</span></span>
+<span class="line"><span>const obj2 = { ...obj1, z: 26 };</span></span>
+<span class="line"><span>// obj2 is { a: 1, b: 2, c: 3, z: 26 }</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>可以使用扩展运算符拷贝一个对象，像是这样<code>obj2 = {...obj1}</code>，但是 <strong>这只是一个对象的浅拷贝</strong>。另外，如果一个对象 A 的属性是对象 B，那么在克隆后的对象 cloneB 中，该属性指向对象 B。</p><h3 id="_4-正则表达式命名捕获组" tabindex="-1">4.正则表达式命名捕获组 <a class="header-anchor" href="#_4-正则表达式命名捕获组" aria-label="Permalink to &quot;4.正则表达式命名捕获组&quot;">​</a></h3><p>JavaScript 正则表达式可以返回一个匹配的对象——一个包含匹配字符串的类数组，例如：以<code>YYYY-MM-DD</code>的格式解析日期：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const</span></span>
+<span class="line"><span>  reDate = /([0-9]{4})-([0-9]{2})-([0-9]{2})/,</span></span>
+<span class="line"><span>  match  = reDate.exec(&#39;2018-04-30&#39;),</span></span>
+<span class="line"><span>  year   = match[1], // 2018</span></span>
+<span class="line"><span>  month  = match[2], // 04</span></span>
+<span class="line"><span>  day    = match[3]; // 30</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>这样的代码很难读懂，并且改变正则表达式的结构有可能改变匹配对象的索引。</p><p>ES2018 允许命名捕获组使用符号<code>?&lt;name&gt;</code>，在打开捕获括号<code>(</code>后立即命名，示例如下：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const</span></span>
+<span class="line"><span>  reDate = /(?&lt;year&gt;[0-9]{4})-(?&lt;month&gt;[0-9]{2})-(?&lt;day&gt;[0-9]{2})/,</span></span>
+<span class="line"><span>  match  = reDate.exec(&#39;2018-04-30&#39;),</span></span>
+<span class="line"><span>  year   = match.groups.year,  // 2018</span></span>
+<span class="line"><span>  month  = match.groups.month, // 04</span></span>
+<span class="line"><span>  day    = match.groups.day;   // 30</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>任何匹配失败的命名组都将返回<code>undefined</code>。</p><p>命名捕获也可以使用在<code>replace()</code>方法中。例如将日期转换为美国的 MM-DD-YYYY 格式：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const</span></span>
+<span class="line"><span>  reDate = /(?&lt;year&gt;[0-9]{4})-(?&lt;month&gt;[0-9]{2})-(?&lt;day&gt;[0-9]{2})/,</span></span>
+<span class="line"><span>  d      = &#39;2018-04-30&#39;,</span></span>
+<span class="line"><span>  usDate = d.replace(reDate, &#39;$&lt;month&gt;-$&lt;day&gt;-$&lt;year&gt;&#39;);</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_5-正则表达式反向断言" tabindex="-1">5.正则表达式反向断言 <a class="header-anchor" href="#_5-正则表达式反向断言" aria-label="Permalink to &quot;5.正则表达式反向断言&quot;">​</a></h3><p>目前 JavaScript 在正则表达式中支持先行断言（lookahead）。这意味着匹配会发生，但不会有任何捕获，并且断言没有包含在整个匹配字段中。例如从价格中捕获货币符号：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const</span></span>
+<span class="line"><span>  reLookahead = /\\D(?=\\d+)/,</span></span>
+<span class="line"><span>  match       = reLookahead.exec(&#39;$123.89&#39;);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>console.log( match[0] ); // $</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>ES2018 引入以相同方式工作但是匹配前面的反向断言（lookbehind），这样我就可以忽略货币符号，单纯的捕获价格的数字：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const</span></span>
+<span class="line"><span>  reLookbehind = /(?&lt;=\\D)\\d+/,</span></span>
+<span class="line"><span>  match        = reLookbehind.exec(&#39;$123.89&#39;);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>console.log( match[0] ); // 123.89</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>以上是 <strong>肯定反向断言</strong>，非数字<code>\\D</code>必须存在。同样的，还存在 <strong>否定反向断言</strong>，表示一个值必须不存在，例如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const</span></span>
+<span class="line"><span>  reLookbehindNeg = /(?&lt;!\\D)\\d+/,</span></span>
+<span class="line"><span>  match           = reLookbehind.exec(&#39;$123.89&#39;);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>console.log( match[0] ); // null</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_6-正则表达式-dotall-模式" tabindex="-1">6.正则表达式 dotAll 模式 <a class="header-anchor" href="#_6-正则表达式-dotall-模式" aria-label="Permalink to &quot;6.正则表达式 dotAll 模式&quot;">​</a></h3><p>正则表达式中点<code>.</code>匹配除回车外的任何单字符，标记<code>s</code>改变这种行为，允许行终止符的出现，例如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>/hello.world/.test(&#39;hello\\nworld&#39;);  // false</span></span>
+<span class="line"><span>/hello.world/s.test(&#39;hello\\nworld&#39;); // true</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_7-正则表达式-unicode-转义" tabindex="-1">7.正则表达式 Unicode 转义 <a class="header-anchor" href="#_7-正则表达式-unicode-转义" aria-label="Permalink to &quot;7.正则表达式 Unicode 转义&quot;">​</a></h3><p>到目前为止，在正则表达式中本地访问 Unicode 字符属性是不被允许的。ES2018 添加了 Unicode 属性转义——形式为<code>\\p{...}</code>和<code>\\P{...}</code>，在正则表达式中使用标记 <code>u</code> (unicode) 设置，在<code>\\p</code>块儿内，可以以键值对的方式设置需要匹配的属性而非具体内容。例如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const reGreekSymbol = /\\p{Script=Greek}/u;</span></span>
+<span class="line"><span>reGreekSymbol.test(&#39;π&#39;); // true</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>此特性可以避免使用特定 Unicode 区间来进行内容类型判断，提升可读性和可维护性。</p><h3 id="_8-非转义序列的模板字符串" tabindex="-1">8.非转义序列的模板字符串 <a class="header-anchor" href="#_8-非转义序列的模板字符串" aria-label="Permalink to &quot;8.非转义序列的模板字符串&quot;">​</a></h3><p>之前，<code>\\u</code>开始一个 unicode 转义，<code>\\x</code>开始一个十六进制转义，<code>\\</code>后跟一个数字开始一个八进制转义。这使得创建特定的字符串变得不可能，例如 Windows 文件路径 <code>C:\\uuu\\xxx\\111</code>。更多细节参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/template_strings" target="_blank" rel="noreferrer">模板字符串</a>。</p><h2 id="es10-新特性-2019" tabindex="-1">ES10 新特性（2019） <a class="header-anchor" href="#es10-新特性-2019" aria-label="Permalink to &quot;ES10 新特性（2019）&quot;">​</a></h2><ul><li>行分隔符（U + 2028）和段分隔符（U + 2029）符号现在允许在字符串文字中，与 JSON 匹配</li><li>更加友好的 JSON.stringify</li><li>新增了 Array 的<code>flat()</code>方法和<code>flatMap()</code>方法</li><li>新增了 String 的<code>trimStart()</code>方法和<code>trimEnd()</code>方法</li><li><code>Object.fromEntries()</code></li><li><code>Symbol.prototype.description</code></li><li><code>String.prototype.matchAll</code></li><li><code>Function.prototype.toString()</code>现在返回精确字符，包括空格和注释</li><li>简化<code>try {} catch {}</code>,修改 <code>catch</code> 绑定</li><li>新的基本数据类型<code>BigInt</code></li><li>globalThis</li><li>import()</li><li>Legacy RegEx</li><li>私有的实例方法和访问器</li></ul><h3 id="_1-行分隔符-u-2028-和段分隔符-u-2029-符号现在允许在字符串文字中-与-json-匹配" tabindex="-1">1.行分隔符（U + 2028）和段分隔符（U + 2029）符号现在允许在字符串文字中，与 JSON 匹配 <a class="header-anchor" href="#_1-行分隔符-u-2028-和段分隔符-u-2029-符号现在允许在字符串文字中-与-json-匹配" aria-label="Permalink to &quot;1.行分隔符（U + 2028）和段分隔符（U + 2029）符号现在允许在字符串文字中，与 JSON 匹配&quot;">​</a></h3><p>以前，这些符号在字符串文字中被视为行终止符，因此使用它们会导致 SyntaxError 异常。</p><h3 id="_2-更加友好的-json-stringify" tabindex="-1">2.更加友好的 JSON.stringify <a class="header-anchor" href="#_2-更加友好的-json-stringify" aria-label="Permalink to &quot;2.更加友好的 JSON.stringify&quot;">​</a></h3><p>如果输入 Unicode 格式但是超出范围的字符，在原先 JSON.stringify 返回格式错误的 Unicode 字符串。现在实现了一个改变 JSON.stringify 的<a href="https://github.com/tc39/proposal-well-formed-stringify" target="_blank" rel="noreferrer">第 3 阶段提案</a>，因此它为其输出转义序列，使其成为有效 Unicode（并以 UTF-8 表示）</p><h3 id="_3-新增了-array-的flat-方法和flatmap-方法" tabindex="-1">3.新增了 Array 的<code>flat()</code>方法和<code>flatMap()</code>方法 <a class="header-anchor" href="#_3-新增了-array-的flat-方法和flatmap-方法" aria-label="Permalink to &quot;3.新增了 Array 的\`flat()\`方法和\`flatMap()\`方法&quot;">​</a></h3><p><code>flat()</code>和<code>flatMap()</code>本质上就是是归纳（reduce） 与 合并（concat）的操作。</p><h4 id="array-prototype-flat" tabindex="-1">Array.prototype.flat() <a class="header-anchor" href="#array-prototype-flat" aria-label="Permalink to &quot;Array.prototype.flat()&quot;">​</a></h4><p><code>flat()</code> 方法会按照一个可指定的深度递归遍历数组，并将所有元素与遍历到的子数组中的元素合并为一个新数组返回。</p><ul><li><code>flat()</code>方法最基本的作用就是数组降维</li></ul><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var arr1 = [1, 2, [3, 4]];</span></span>
+<span class="line"><span>arr1.flat();</span></span>
+<span class="line"><span>// [1, 2, 3, 4]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>var arr2 = [1, 2, [3, 4, [5, 6]]];</span></span>
+<span class="line"><span>arr2.flat();</span></span>
+<span class="line"><span>// [1, 2, 3, 4, [5, 6]]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>var arr3 = [1, 2, [3, 4, [5, 6]]];</span></span>
+<span class="line"><span>arr3.flat(2);</span></span>
+<span class="line"><span>// [1, 2, 3, 4, 5, 6]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>//使用 Infinity 作为深度，展开任意深度的嵌套数组</span></span>
+<span class="line"><span>arr3.flat(Infinity);</span></span>
+<span class="line"><span>// [1, 2, 3, 4, 5, 6]</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><ul><li>其次，还可以利用<code>flat()</code>方法的特性来去除数组的空项</li></ul><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var arr4 = [1, 2, , 4, 5];</span></span>
+<span class="line"><span>arr4.flat();</span></span>
+<span class="line"><span>// [1, 2, 4, 5]</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h4 id="array-prototype-flatmap" tabindex="-1">Array.prototype.flatMap() <a class="header-anchor" href="#array-prototype-flatmap" aria-label="Permalink to &quot;Array.prototype.flatMap()&quot;">​</a></h4><p><code>flatMap()</code> 方法首先使用映射函数映射每个元素，然后将结果压缩成一个新数组。它与 map 和 深度值 1 的 flat 几乎相同，但 flatMap 通常在合并成一种方法的效率稍微高一些。 这里我们拿 map 方法与 flatMap 方法做一个比较。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var arr1 = [1, 2, 3, 4];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>arr1.map(x =&gt; [x * 2]);</span></span>
+<span class="line"><span>// [[2], [4], [6], [8]]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>arr1.flatMap(x =&gt; [x * 2]);</span></span>
+<span class="line"><span>// [2, 4, 6, 8]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// 只会将 flatMap 中的函数返回的数组 “压平” 一层</span></span>
+<span class="line"><span>arr1.flatMap(x =&gt; [[x * 2]]);</span></span>
+<span class="line"><span>// [[2], [4], [6], [8]]</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_4-新增了-string-的trimstart-方法和trimend-方法" tabindex="-1">4.新增了 String 的<code>trimStart()</code>方法和<code>trimEnd()</code>方法 <a class="header-anchor" href="#_4-新增了-string-的trimstart-方法和trimend-方法" aria-label="Permalink to &quot;4.新增了 String 的\`trimStart()\`方法和\`trimEnd()\`方法&quot;">​</a></h3><p>新增的这两个方法很好理解，分别去除字符串首尾空白字符，这里就不用例子说声明了。</p><h3 id="_5-object-fromentries" tabindex="-1">5.<code>Object.fromEntries()</code> <a class="header-anchor" href="#_5-object-fromentries" aria-label="Permalink to &quot;5.\`Object.fromEntries()\`&quot;">​</a></h3><p><code>Object.entries()</code>方法的作用是返回一个给定对象自身可枚举属性的键值对数组，其排列与使用 for...in 循环遍历该对象时返回的顺序一致（区别在于 for-in 循环也枚举原型链中的属性）。</p><p><strong>而<code>Object.fromEntries()</code> 则是 <code>Object.entries()</code> 的反转。</strong></p><p><code>Object.fromEntries()</code> 函数传入一个键值对的列表，并返回一个带有这些键值对的新对象。这个迭代参数应该是一个能够实现@iterator 方法的的对象，返回一个迭代器对象。它生成一个具有两个元素的类似数组的对象，第一个元素是将用作属性键的值，第二个元素是与该属性键关联的值。</p><ul><li>通过 Object.fromEntries， 可以将 Map 转化为 Object:</li></ul><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const map = new Map([ [&#39;foo&#39;, &#39;bar&#39;], [&#39;baz&#39;, 42] ]);</span></span>
+<span class="line"><span>const obj = Object.fromEntries(map);</span></span>
+<span class="line"><span>console.log(obj); // { foo: &quot;bar&quot;, baz: 42 }</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><ul><li>通过 Object.fromEntries， 可以将 Array 转化为 Object:</li></ul><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const arr = [ [&#39;0&#39;, &#39;a&#39;], [&#39;1&#39;, &#39;b&#39;], [&#39;2&#39;, &#39;c&#39;] ];</span></span>
+<span class="line"><span>const obj = Object.fromEntries(arr);</span></span>
+<span class="line"><span>console.log(obj); // { 0: &quot;a&quot;, 1: &quot;b&quot;, 2: &quot;c&quot; }</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_6-symbol-prototype-description" tabindex="-1">6.<code>Symbol.prototype.description</code> <a class="header-anchor" href="#_6-symbol-prototype-description" aria-label="Permalink to &quot;6.\`Symbol.prototype.description\`&quot;">​</a></h3><p>通过工厂函数 Symbol（）创建符号时，您可以选择通过参数提供字符串作为描述：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const sym = Symbol(&#39;The description&#39;);</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>以前，访问描述的唯一方法是将符号转换为字符串：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>assert.equal(String(sym), &#39;Symbol(The description)&#39;);</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>现在引入了 getter Symbol.prototype.description 以直接访问描述：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>assert.equal(sym.description, &#39;The description&#39;);</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_7-string-prototype-matchall" tabindex="-1">7.<code>String.prototype.matchAll</code> <a class="header-anchor" href="#_7-string-prototype-matchall" aria-label="Permalink to &quot;7.\`String.prototype.matchAll\`&quot;">​</a></h3><p><code>matchAll()</code> 方法返回一个包含所有匹配正则表达式及分组捕获结果的迭代器。 在 matchAll 出现之前，通过在循环中调用 regexp.exec 来获取所有匹配项信息（regexp 需使用/g 标志：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const regexp = RegExp(&#39;foo*&#39;,&#39;g&#39;);</span></span>
+<span class="line"><span>const str = &#39;table football, foosball&#39;;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>while ((matches = regexp.exec(str)) !== null) {</span></span>
+<span class="line"><span>  console.log(\`Found \${matches[0]}. Next starts at \${regexp.lastIndex}.\`);</span></span>
+<span class="line"><span>  // expected output: &quot;Found foo. Next starts at 9.&quot;</span></span>
+<span class="line"><span>  // expected output: &quot;Found foo. Next starts at 19.&quot;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>如果使用 matchAll ，就可以不必使用 while 循环加 exec 方式（且正则表达式需使用／g 标志）。使用 matchAll 会得到一个迭代器的返回值，配合 for...of, array spread, or Array.from() 可以更方便实现功能：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const regexp = RegExp(&#39;foo*&#39;,&#39;g&#39;);</span></span>
+<span class="line"><span>const str = &#39;table football, foosball&#39;;</span></span>
+<span class="line"><span>let matches = str.matchAll(regexp);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>for (const match of matches) {</span></span>
+<span class="line"><span>  console.log(match);</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>// Array [ &quot;foo&quot; ]</span></span>
+<span class="line"><span>// Array [ &quot;foo&quot; ]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// matches iterator is exhausted after the for..of iteration</span></span>
+<span class="line"><span>// Call matchAll again to create a new iterator</span></span>
+<span class="line"><span>matches = str.matchAll(regexp);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Array.from(matches, m =&gt; m[0]);</span></span>
+<span class="line"><span>// Array [ &quot;foo&quot;, &quot;foo&quot; ]</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h4 id="matchall-可以更好的用于分组" tabindex="-1">matchAll 可以更好的用于分组 <a class="header-anchor" href="#matchall-可以更好的用于分组" aria-label="Permalink to &quot;matchAll 可以更好的用于分组&quot;">​</a></h4><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var regexp = /t(e)(st(\\d?))/g;</span></span>
+<span class="line"><span>var str = &#39;test1test2&#39;;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>str.match(regexp);</span></span>
+<span class="line"><span>// Array [&#39;test1&#39;, &#39;test2&#39;]</span></span>
+<span class="line"><span>复制代码</span></span>
+<span class="line"><span>let array = [...str.matchAll(regexp)];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>array[0];</span></span>
+<span class="line"><span>// [&#39;test1&#39;, &#39;e&#39;, &#39;st1&#39;, &#39;1&#39;, index: 0, input: &#39;test1test2&#39;, length: 4]</span></span>
+<span class="line"><span>array[1];</span></span>
+<span class="line"><span>// [&#39;test2&#39;, &#39;e&#39;, &#39;st2&#39;, &#39;2&#39;, index: 5, input: &#39;test1test2&#39;, length: 4]</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_8-function-prototype-tostring-现在返回精确字符-包括空格和注释" tabindex="-1">8.<code>Function.prototype.toString()</code>现在返回精确字符，包括空格和注释 <a class="header-anchor" href="#_8-function-prototype-tostring-现在返回精确字符-包括空格和注释" aria-label="Permalink to &quot;8.\`Function.prototype.toString()\`现在返回精确字符，包括空格和注释&quot;">​</a></h3><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function /* comment */ foo /* another comment */() {}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// 之前不会打印注释部分</span></span>
+<span class="line"><span>console.log(foo.toString()); // function foo(){}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// ES2019 会把注释一同打印</span></span>
+<span class="line"><span>console.log(foo.toString()); // function /* comment */ foo /* another comment */ (){}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// 箭头函数</span></span>
+<span class="line"><span>const bar /* comment */ = /* another comment */ () =&gt; {};</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>console.log(bar.toString()); // () =&gt; {}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_9-修改-catch-绑定" tabindex="-1">9.修改 <code>catch</code> 绑定 <a class="header-anchor" href="#_9-修改-catch-绑定" aria-label="Permalink to &quot;9.修改 \`catch\` 绑定&quot;">​</a></h3><p>在 ES10 之前，我们必须通过语法为 catch 子句绑定异常变量，无论是否有必要。很多时候 catch 块是多余的。 ES10 提案使我们能够简单的把变量省略掉。</p><p>不算大的改动。</p><p>之前是</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>try {} catch(e) {}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>现在是</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>try {} catch {}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><h3 id="_10-新的基本数据类型bigint" tabindex="-1">10.新的基本数据类型<code>BigInt</code> <a class="header-anchor" href="#_10-新的基本数据类型bigint" aria-label="Permalink to &quot;10.新的基本数据类型\`BigInt\`&quot;">​</a></h3><p>现在的基本数据类型（值类型）不止 5 种（ES6 之后是六种）了哦！加上 BigInt 一共有七种基本数据类型，分别是： String、Number、Boolean、Null、Undefined、Symbol、BigInt</p><p><a href="https://juejin.im/post/5b9cb3336fb9a05d290ee47e" target="_blank" rel="noreferrer">ES6、ES7、ES8 学习指南</a></p><h2 id="es2020-新特性" tabindex="-1">ES2020 新特性 <a class="header-anchor" href="#es2020-新特性" aria-label="Permalink to &quot;ES2020 新特性&quot;">​</a></h2><h3 id="前言" tabindex="-1">前言 <a class="header-anchor" href="#前言" aria-label="Permalink to &quot;前言&quot;">​</a></h3><p>ES2020 是 ECMAScript 对应 2020 年的版本。这个版本不像 ES6 (ES2015)那样包含大量新特性。但也添加了许多有趣且有用的特性。</p><p>本文以简单的代码示例来介绍 ES2020 新特性。这样，你可以很快理解这些新功能，而不需要多么复杂的解释。<strong>更多优质文章请猛戳<a href="https://github.com/ljianshu/Blog" target="_blank" rel="noreferrer">GitHub 博客</a></strong></p><h3 id="_1-可选链操作符-optional-chaining" tabindex="-1">1.可选链操作符（Optional Chaining） <a class="header-anchor" href="#_1-可选链操作符-optional-chaining" aria-label="Permalink to &quot;1.可选链操作符（Optional Chaining）&quot;">​</a></h3><p><strong>可选链</strong> 可让我们在查询具有多个层级的对象时，不再需要进行冗余的各种前置校验。</p><p>日常开发中，当需要访问嵌套在对象内部好几层的属性时，可能就会得到臭名昭著的错误<code>Uncaught TypeError: Cannot read property...</code>，这种错误，让整段程序运行中止。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhu4wm5bj30iy03vq3j.jpg" alt=""></p><p>于是，你就要修改你的代码来处理来处理属性链中每一个可能的 undefined 对象，比如：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let nestedProp = obj &amp;&amp; obj.first &amp;&amp; obj.first.second;</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>在访问 obj.first.second 之前，要先确认 obj 和 obj.first 的值非 null(且不是 undefined)。</p><p>有了可选链式调用 ，可以大量简化类似繁琐的前置校验操作，而且更安全：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let nestedProp = obj?.first?.second;</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>如果 obj 或 obj.first 是 null/undefined，表达式将会短路计算直接返回 undefined。</p><p>可选链操作符的支持情况：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhuti24uj30s708twfx.jpg" alt=""></p><h3 id="_2-空位合并操作符-nullish-coalescing-operator" tabindex="-1">2.空位合并操作符（Nullish coalescing Operator） <a class="header-anchor" href="#_2-空位合并操作符-nullish-coalescing-operator" aria-label="Permalink to &quot;2.空位合并操作符（Nullish coalescing Operator）&quot;">​</a></h3><p>当我们查询某个属性时，经常会给没有该属性就设置一个默认的值，比如下面两种方式：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let c = a ? a : b // 方式1</span></span>
+<span class="line"><span>let c = a || b // 方式2</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>这两种方式有个明显的弊端，它都会覆盖所有的假值，如(0, &#39;&#39;, false)，这些值可能是在某些情况下有效的输入。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let x = {</span></span>
+<span class="line"><span>  profile: {</span></span>
+<span class="line"><span>    name: &#39;浪里行舟&#39;,</span></span>
+<span class="line"><span>    age: &#39;&#39;</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>console.log(x.profile.age || 18) //18</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>上例中 age 的属性为空字符串，却被等同为假值，为了解决这个问题，ES2020 诞生了个新特性--空位合并操作符，用 ?? 表示。如果表达式在??的左侧运算符求值为 <strong>undefined 或 null</strong>，就返回其右侧默认值。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let c = a ?? b;</span></span>
+<span class="line"><span>// 等价于let c = a !== undefined &amp;&amp; a !== null ? a : b;</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>例如有以下代码：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const x = null;</span></span>
+<span class="line"><span>const y = x ?? 500;</span></span>
+<span class="line"><span>console.log(y); // 500</span></span>
+<span class="line"><span>const n = 0</span></span>
+<span class="line"><span>const m = n ?? 9000;</span></span>
+<span class="line"><span>console.log(m) // 0</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>空位合并操作符的支持情况：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhv39hudj30s908t400.jpg" alt=""></p><h3 id="_3-promise-allsettled" tabindex="-1">3.Promise.allSettled <a class="header-anchor" href="#_3-promise-allsettled" aria-label="Permalink to &quot;3.Promise.allSettled&quot;">​</a></h3><p>我们知道 Promise.all 具有并发执行异步任务的能力。但它的最大问题就是<strong>如果参数中的任何一个 promise 为 reject 的话，则整个 Promise.all 调用会立即终止</strong>，并返回一个 reject 的新的 Promise 对象。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const promises = [</span></span>
+<span class="line"><span> Promise.resolve(1),</span></span>
+<span class="line"><span> Promise.resolve(2),</span></span>
+<span class="line"><span> Promise.reject(&#39;error&#39;)</span></span>
+<span class="line"><span>];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Promise.all(promises)</span></span>
+<span class="line"><span> .then(responses =&gt; console.log(responses))</span></span>
+<span class="line"><span> .catch(e =&gt; console.log(e)) // &quot;error&quot;</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>假如有这样的场景：一个页面有三个区域，分别对应三个独立的接口数据，使用 Promise.all 来并发请求三个接口，如果其中任意一个接口出现异常，状态是 reject,这会导致页面中该三个区域数据全都无法出来，这个状况我们是无法接受，Promise.allSettled 的出现就可以解决这个痛点：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>Promise.allSettled([</span></span>
+<span class="line"><span>  Promise.reject({ code: 500, msg: &#39;服务异常&#39; }),</span></span>
+<span class="line"><span>  Promise.resolve({ code: 200, list: [] }),</span></span>
+<span class="line"><span>  Promise.resolve({ code: 200, list: [] })</span></span>
+<span class="line"><span>]).then(res =&gt; {</span></span>
+<span class="line"><span>  console.log(res)</span></span>
+<span class="line"><span>  /*</span></span>
+<span class="line"><span>        0: {status: &quot;rejected&quot;, reason: {…}}</span></span>
+<span class="line"><span>        1: {status: &quot;fulfilled&quot;, value: {…}}</span></span>
+<span class="line"><span>        2: {status: &quot;fulfilled&quot;, value: {…}}</span></span>
+<span class="line"><span>    */</span></span>
+<span class="line"><span>  // 过滤掉 rejected 状态，尽可能多的保证页面区域数据渲染</span></span>
+<span class="line"><span>  RenderContent(</span></span>
+<span class="line"><span>    res.filter(el =&gt; {</span></span>
+<span class="line"><span>      return el.status !== &#39;rejected&#39;</span></span>
+<span class="line"><span>    })</span></span>
+<span class="line"><span>  )</span></span>
+<span class="line"><span>})</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>Promise.allSettled 跟 Promise.all 类似, 其参数接受一个 Promise 的数组, 返回一个新的 Promise, <strong>唯一的不同在于, 它不会进行短路</strong>, 也就是说当 Promise 全部处理完成后,我们可以拿到每个 Promise 的状态, 而不管是否处理成功。</p><p>Promise.allSettled 的支持情况：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhvcuh1qj30s9082abb.jpg" alt=""></p><h3 id="_4-string-prototype-matchall" tabindex="-1">4.String.prototype.matchAll <a class="header-anchor" href="#_4-string-prototype-matchall" aria-label="Permalink to &quot;4.String.prototype.matchAll&quot;">​</a></h3><p>如果一个正则表达式在字符串里面有多个匹配，现在一般使用 g 修饰符或 y 修饰符，在循环里面逐一取出。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function collectGroup1 (regExp, str) {</span></span>
+<span class="line"><span>  const matches = []</span></span>
+<span class="line"><span>  while (true) {</span></span>
+<span class="line"><span>    const match = regExp.exec(str)</span></span>
+<span class="line"><span>    if (match === null) break</span></span>
+<span class="line"><span>    matches.push(match[1])</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  return matches</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>console.log(collectGroup1(/&quot;([^&quot;]*)&quot;/g, \`&quot;foo&quot; and &quot;bar&quot; and &quot;baz&quot;\`))</span></span>
+<span class="line"><span>// [ &#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39; ]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>值得注意的是，如果没有修饰符 /g, .exec() 只返回第一个匹配。现在通过 String.prototype.matchAll 方法，可以一次性取出所有匹配。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>function collectGroup1 (regExp, str) {</span></span>
+<span class="line"><span>  let results = []</span></span>
+<span class="line"><span>  for (const match of str.matchAll(regExp)) {</span></span>
+<span class="line"><span>    results.push(match[1])</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  return results</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>console.log(collectGroup1(/&quot;([^&quot;]*)&quot;/g, \`&quot;foo&quot; and &quot;bar&quot; and &quot;baz&quot;\`))</span></span>
+<span class="line"><span>// [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>上面代码中，由于 string.matchAll(regex)返回的是遍历器，所以可以用 for...of 循环取出。</p><p>String.prototype.matchAll 的支持情况：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhvlyimzj30s7084dh4.jpg" alt=""></p><h3 id="_5-dynamic-import" tabindex="-1">5.Dynamic import <a class="header-anchor" href="#_5-dynamic-import" aria-label="Permalink to &quot;5.Dynamic import&quot;">​</a></h3><p>现在前端打包资源越来越大，前端应用初始化时根本不需要全部加载这些逻辑资源，为了首屏渲染速度更快，很多时候都是动态导入（按需加载）模块，比如懒加载图片等，这样可以帮助您提高应用程序的性能。</p><p>其中按需加载这些逻辑资源都一般会在某一个事件回调中去执行：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>el.onclick = () =&gt; {</span></span>
+<span class="line"><span>  import(&#39;/modules/my-module.js&#39;)</span></span>
+<span class="line"><span>    .then(module =&gt; {</span></span>
+<span class="line"><span>      // Do something with the module.</span></span>
+<span class="line"><span>    })</span></span>
+<span class="line"><span>    .catch(err =&gt; {</span></span>
+<span class="line"><span>      // load error;</span></span>
+<span class="line"><span>    })</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>import()可以用于 script 脚本中,<strong>import(module) 函数可以在任何地方调用。它返回一个解析为模块对象的 promise。</strong></p><p>这种使用方式也支持 await 关键字。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>let module = await import(&#39;/modules/my-module.js&#39;);</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>通过动态导入代码，您可以减少应用程序加载所需的时间，并尽可能快地将某些内容返回给用户。</p><p>Dynamic import 的支持情况：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhvt34bmj30s90av0uj.jpg" alt=""></p><h3 id="_6-bigint" tabindex="-1">6.BigInt <a class="header-anchor" href="#_6-bigint" aria-label="Permalink to &quot;6.BigInt&quot;">​</a></h3><p>javascript 在 Math 上一直很糟糕的原因之一是只能安全的表示<code>-(2^53-1)</code>至 <code>2^53-1</code> 范的值，即<code>Number.MIN_SAFE_INTEGER</code> 至<code>Number.MAX_SAFE_INTEGER</code>，超出这个范围的整数计算或者表示会丢失精度。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>var num = Number.MAX_SAFE_INTEGER;  // -&gt; 9007199254740991</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>num = num + 1; // -&gt; 9007199254740992</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// 再次加 +1 后无法正常运算</span></span>
+<span class="line"><span>num = num + 1; // -&gt; 9007199254740992</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// 两个不同的值，却返回了true</span></span>
+<span class="line"><span>9007199254740992 === 9007199254740993  // -&gt; true</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>于是 BigInt 应运而生，<strong>它是第 7 个原始类型，可安全地进行大数整型计算</strong>。 你可以在 BigInt 上使用与普通数字相同的运算符，例如 +, -, /, *, %等等。</p><p>创建 BigInt 类型的值也非常简单，只需要在数字后面加上 n 即可。例如，123 变为 123n。也可以使用全局方法 BigInt(value) 转化，入参 value 为数字或数字字符串。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>const aNumber = 111;</span></span>
+<span class="line"><span>const aBigInt = BigInt(aNumber);</span></span>
+<span class="line"><span>aBigInt === 111n // true</span></span>
+<span class="line"><span>typeof aBigInt === &#39;bigint&#39; // true</span></span>
+<span class="line"><span>typeof 111 // &quot;number&quot;</span></span>
+<span class="line"><span>typeof 111n // &quot;bigint&quot;</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>只要在数字末尾加上 n，就可以正确计算大数了：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>1234567890123456789n * 123n;</span></span>
+<span class="line"><span>// -&gt; 151851850485185185047n</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>不过有一个问题，在大多数操作中，不能将 BigInt 与 Number 混合使用。比较 Number 和 BigInt 是可以的，但是不能把它们相加。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>1n &lt; 2</span></span>
+<span class="line"><span>// true</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1n + 2</span></span>
+<span class="line"><span>// Uncaught TypeError: Cannot mix BigInt and other types, use explicit conversions</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>BigInt 的支持情况：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhw1gbi7j30yr07f408.jpg" alt=""></p><h3 id="_7-globalthis" tabindex="-1">7.globalThis <a class="header-anchor" href="#_7-globalthis" aria-label="Permalink to &quot;7.globalThis&quot;">​</a></h3><p>globalThis 是一个全新的标准方法用来获取全局 this 。之前开发者会通过如下的一些方法获取：</p><ul><li>全局变量 window：是一个经典的获取全局对象的方法。但是它在 Node.js 和 Web Workers 中并不能使用</li><li>全局变量 self：通常只在 Web Workers 和浏览器中生效。但是它不支持 Node.js。一些人会通过判断 self 是否存在识别代码是否运行在 Web Workers 和浏览器中</li><li>全局变量 global：只在 Node.js 中生效</li></ul><p>过去获取全局对象，可通过一个全局函数：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>// ES10之前的解决方案</span></span>
+<span class="line"><span>const getGlobal = function(){</span></span>
+<span class="line"><span>  if(typeof self !== &#39;undefined&#39;) return self</span></span>
+<span class="line"><span>  if(typeof window !== &#39;undefined&#39;) return window</span></span>
+<span class="line"><span>  if(typeof global !== &#39;undefined&#39;) return global</span></span>
+<span class="line"><span>  throw new Error(&#39;unable to locate global object&#39;)</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// ES10内置</span></span>
+<span class="line"><span>globalThis.Array(0,1,2) // [0,1,2]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// 定义一个全局对象v = { value:true } ,ES10用如下方式定义</span></span>
+<span class="line"><span>globalThis.v = { value:true }</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>而 <strong>globalThis 目的就是提供一种标准化方式访问全局对象</strong>，有了 globalThis 后，你可以在任意上下文，任意时刻都能获取到全局对象。</p><p>如果您在浏览器上，globalThis 将为 window，如果您在 Node 上，globalThis 则将为 global。因此，不再需要考虑不同的环境问题。</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>// worker.js</span></span>
+<span class="line"><span>globalThis === self</span></span>
+<span class="line"><span>// node.js</span></span>
+<span class="line"><span>globalThis === global</span></span>
+<span class="line"><span>// browser.js</span></span>
+<span class="line"><span>globalThis === window</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>新提案也规定了，Object.prototype 必须在全局对象的原型链中。下面的代码在最新浏览器中已经会返回 true 了：</p><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>Object.prototype.isPrototypeOf(globalThis); // true</span></span>
+<span class="line"><span>复制代码</span></span></code></pre></div><p>globalThis 的支持情况：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggyhw8wjo6j30sa083myh.jpg" alt=""></p><h3 id="参考文章" tabindex="-1">参考文章 <a class="header-anchor" href="#参考文章" aria-label="Permalink to &quot;参考文章&quot;">​</a></h3><ul><li><a href="https://prop-tc39.now.sh/" target="_blank" rel="noreferrer">TC39 Proposals</a></li><li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/import" target="_blank" rel="noreferrer">MDN 文档</a></li><li><a href="https://zhuanlan.zhihu.com/p/100251213" target="_blank" rel="noreferrer">种草 ES2020 新特性</a></li><li><a href="https://dev.to/carlillo/es2020-features-in-simple-examples-1513" target="_blank" rel="noreferrer">ES2020 Features in simple examples</a></li><li><a href="https://medium.com/javascript-in-plain-english/new-features-in-es2020-you-should-check-b4974d9d7edc" target="_blank" rel="noreferrer">New Features In ES2020 You Should Check</a></li><li><a href="https://dev.to/gethackteam/5-ecmascript-proposals-to-look-out-for-in-es2020-36hp" target="_blank" rel="noreferrer">5 ECMAScript Proposals To Look Out For In ES2020</a></li></ul>`,394)])])}const g=s(l,[["render",t]]);export{u as __pageData,g as default};

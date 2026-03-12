@@ -1,6 +1,5 @@
 # HTML
 
-[[TOC]]
 
 ## defer async
 
