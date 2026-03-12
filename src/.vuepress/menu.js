@@ -6,6 +6,6 @@ module.exports = {
   ],
 
   sidebar: {
-    '/frontend/': ['', 'css', 'js', 'es', 'vue', 'react', 'browser', 'network', 'algorithm', 'lib'],
+    '/frontend/': ['', 'css', 'js', 'es', 'vue', 'react', 'ssr', 'browser', 'network', 'algorithm', 'lib'],
   },
 }
