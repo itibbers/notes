@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "husky": "^4.2.5",
+    "husky": "^7.0.0",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "vitepress": "^1.6.3"
@@ -16,12 +16,8 @@
   "scripts": {
     "dev": "vitepress dev src",
     "build": "vitepress build src",
-    "deploy": "sh ./deploy.sh"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "deploy": "sh ./deploy.sh",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "src/**": [
